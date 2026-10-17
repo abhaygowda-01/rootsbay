@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rootsbay website
 
-## Getting Started
+Website for [Rootsbay](https://www.rootsbay.co) — agro exports from Bengaluru, starting with areca palm leaf tableware.
 
-First, run the development server:
+- One home page: hero → product range (20 items, filter by shape) → about → how it's made → quote request
+- 20 static product pages at `/products/<slug>` with specs and a "request a quote for this item" link
+- Working enquiry backend at `POST /api/enquiry` (validation, honeypot + timing spam guard, rate limit, email/webhook delivery)
+- SEO basics: per-page metadata, Open Graph, `sitemap.xml`, `robots.txt`, Organization + Product JSON-LD
+
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # optional for local testing
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Without email settings, test enquiries are written to `.data/enquiries.jsonl` in dev.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Make the form send email
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Sign up at resend.com, create an API key.
+2. Add and verify the `rootsbay.co` domain (Resend shows the DNS records to add).
+3. Set `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` (see `.env.example`).
 
-## Learn More
+Prefer a spreadsheet? Set `ENQUIRY_WEBHOOK_URL` to a Google Apps Script web app that appends rows to a Sheet — both can run together.
 
-To learn more about Next.js, take a look at the following resources:
+## Deploy (Vercel)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push this folder to a GitHub repo.
+2. Import it in Vercel (framework auto-detected).
+3. Add the environment variables.
+4. Add `rootsbay.co` and `www.rootsbay.co` under Domains and update DNS at the registrar.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Editing content
 
-## Deploy on Vercel
+| Change | File |
+| --- | --- |
+| Phone, email, address, GSTIN, social links | `lib/site.ts` |
+| Products (names, sizes, text, images) | `lib/products.ts` + `public/images/products/` |
+| Home page text | `app/page.tsx` |
+| Colours and fonts | `app/globals.css` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `CLAUDE.md` for the full map, design rules and the list of things to confirm with Rootsbay before launch.
