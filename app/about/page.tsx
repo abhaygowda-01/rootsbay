@@ -36,8 +36,9 @@ export default function AboutPage() {
           <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">Who we are</h2>
           <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted">
             <p>
-              Rootsbay is an agro-export company based in Vijayanagar, Bengaluru. The job is simple to describe: find good products
-              in Karnataka, check them, document them and ship them to importers, distributors and caterers overseas.
+              Rootsbay is an agro-export company based in Vijayanagar, Bengaluru, founded by {site.founder.name} and registered in
+              September 2026. The job is simple to describe: find good products in Karnataka, check them, document them and ship
+              them to importers, distributors and caterers overseas.
             </p>
             <p>
               The tagline on our signboard is &ldquo;{site.tagline}&rdquo;, and it is the brief. We want a buyer in another

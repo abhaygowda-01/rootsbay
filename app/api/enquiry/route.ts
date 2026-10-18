@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { enquirySchema } from "@/lib/enquiry-schema";
 import { deliverEnquiry } from "@/lib/notify";
 import { rateLimit } from "@/lib/rate-limit";
+import { site } from "@/lib/site";
 
 /**
  * POST /api/enquiry
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
   if (results.length === 0) {
     console.error("[enquiry] No delivery channel configured. Set RESEND_API_KEY/ENQUIRY_TO_EMAIL or ENQUIRY_WEBHOOK_URL.");
     return NextResponse.json(
-      { ok: false, error: "The form isn't connected yet. Please email connect@rootsbay.co." },
+      { ok: false, error: `The form isn't connected yet. Please email ${site.contact.email}.` },
       { status: 503 },
     );
   }
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
   if (!delivered) {
     console.error("[enquiry] delivery failed", results);
     return NextResponse.json(
-      { ok: false, error: "We couldn't send your enquiry. Please email connect@rootsbay.co." },
+      { ok: false, error: `We couldn't send your enquiry. Please email ${site.contact.email}.` },
       { status: 502 },
     );
   }

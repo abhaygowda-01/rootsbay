@@ -1,5 +1,6 @@
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { EnquiryForm } from "@/components/EnquiryForm";
+import { OrderingTerms } from "@/components/OrderingTerms";
 import { PageHero } from "@/components/PageHero";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -22,6 +23,10 @@ export default function ContactPage() {
         <div>
           <h2 className="text-2xl font-semibold tracking-[-0.01em] text-forest">Talk to us directly</h2>
           <dl className="mt-8 space-y-5 text-[0.95rem]">
+            <div>
+              <dt className="text-sm text-muted">{site.founder.role}</dt>
+              <dd className="font-medium text-ink">{site.founder.name}</dd>
+            </div>
             <div>
               <dt className="text-sm text-muted">Email</dt>
               <dd>
@@ -55,6 +60,8 @@ export default function ContactPage() {
               </dd>
             </div>
           </dl>
+
+          <OrderingTerms />
 
           <h2 className="mt-12 text-2xl font-semibold tracking-[-0.01em] text-forest">What to include</h2>
           <ul className="mt-4 space-y-2 leading-relaxed text-muted">

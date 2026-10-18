@@ -4,12 +4,11 @@ import { CtaBand } from "@/components/CtaBand";
 import { PageHero } from "@/components/PageHero";
 import { credentials } from "@/lib/certificates";
 import { pageMeta } from "@/lib/seo";
-import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
   title: "Certificates and compliance for areca leaf plates",
   description:
-    "Rootsbay's GST registration and the documents importers ask an areca leaf plate supplier for: food-contact tests, compostability and export papers.",
+    "Rootsbay's GST, IEC and Udyam (MSME) registrations, and the documents importers ask areca leaf plate suppliers for: test reports and export papers.",
   path: "/certificates",
 });
 
@@ -19,9 +18,9 @@ export default function CertificatesPage() {
   return (
     <>
       <PageHero title="Certificates and compliance" crumbs={<Breadcrumbs items={[{ name: "Certificates", path: "/certificates" }]} />}>
-        Rootsbay is a GST-registered company in Bengaluru, India. This page lists the registrations you can check today and the
-        documents importers usually ask an areca leaf plate supplier for. For test reports and export documents, ask us and we
-        will tell you what is available for your market.
+        Rootsbay is a registered business in Bengaluru, India, with GST, Importer-Exporter Code (IEC) and Udyam (MSME)
+        registrations. This page publishes those certificates and lists the other documents importers usually ask an areca leaf
+        plate supplier for. For test reports and export documents, ask us and we will tell you what is available for your market.
       </PageHero>
 
       {/* Held documents */}
@@ -29,34 +28,66 @@ export default function CertificatesPage() {
         <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">
           Registrations you can verify
         </h2>
-        <ul className="mt-10 grid gap-6 md:grid-cols-2">
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
+          Each certificate is shown as issued. Open the PDF for the full document, or check the number with the issuing authority.
+        </p>
+        <ul className="mt-12 grid gap-8 md:grid-cols-3">
           {held.map((c) => (
-            <li key={c.id} className="rounded-2xl border border-line border-t-2 border-t-brass bg-white p-6 sm:p-8">
-              <h3 className="font-display text-2xl font-semibold text-ink">{c.name}</h3>
-              <p className="mt-1 text-sm text-muted">
-                Registered to {site.legalName}, {site.address.city}, {site.address.region}
-              </p>
-              {c.reference && (
-                <p className="mt-5 font-display text-2xl tracking-wide text-forest tabular-nums">{c.reference}</p>
+            <li key={c.id} className="flex flex-col">
+              {c.image && c.file && (
+                <a
+                  href={c.file}
+                  target="_blank"
+                  rel="noopener"
+                  className="group relative block aspect-[3/4] overflow-hidden rounded-xl border border-line bg-white"
+                  aria-label={`Open the ${c.name} certificate (PDF)`}
+                >
+                  <Image
+                    src={c.image}
+                    alt={`${c.name} certificate, page one`}
+                    fill
+                    sizes="(min-width: 1152px) 368px, (min-width: 768px) 30vw, 92vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                </a>
               )}
-              <p className="mt-4 leading-relaxed text-muted">{c.shows}</p>
-              <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">
-                {c.verify && (
-                  <a href={c.verify.href} target="_blank" rel="noopener" className="text-forest underline underline-offset-4">
-                    {c.verify.label}
-                  </a>
-                )}
-                {c.file && (
-                  <a href={c.file} target="_blank" rel="noopener" className="text-forest underline underline-offset-4">
-                    View document
-                  </a>
-                )}
-              </div>
-              {c.image && (
-                <div className="relative mt-6 aspect-[3/4] max-w-xs overflow-hidden rounded-lg border border-line bg-sheath-50">
-                  <Image src={c.image} alt={`${c.name} for ${site.legalName}`} fill sizes="320px" className="object-contain" />
+              <div className="mt-5 border-t-2 border-brass pt-4">
+                <h3 className="font-display text-2xl font-semibold text-ink">{c.name}</h3>
+                {c.reference && <p className="mt-2 font-display text-xl tracking-wide text-forest tabular-nums">{c.reference}</p>}
+                <dl className="mt-3 space-y-1 text-sm text-muted">
+                  {c.holder && (
+                    <div>
+                      <dt className="inline">Issued to </dt>
+                      <dd className="inline text-ink">{c.holder}</dd>
+                    </div>
+                  )}
+                  {c.issuer && (
+                    <div>
+                      <dt className="inline">Issued by </dt>
+                      <dd className="inline text-ink">{c.issuer}</dd>
+                    </div>
+                  )}
+                  {c.issuedOn && (
+                    <div>
+                      <dt className="inline">Date </dt>
+                      <dd className="inline text-ink">{c.issuedOn}</dd>
+                    </div>
+                  )}
+                </dl>
+                <p className="mt-4 leading-relaxed text-muted">{c.shows}</p>
+                <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium">
+                  {c.file && (
+                    <a href={c.file} target="_blank" rel="noopener" className="text-forest underline underline-offset-4">
+                      View certificate (PDF)
+                    </a>
+                  )}
+                  {c.verify && (
+                    <a href={c.verify.href} target="_blank" rel="noopener" className="text-forest underline underline-offset-4">
+                      {c.verify.label}
+                    </a>
+                  )}
                 </div>
-              )}
+              </div>
             </li>
           ))}
         </ul>
@@ -69,7 +100,7 @@ export default function CertificatesPage() {
             Which documents do importers usually ask for?
           </h2>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted">
-            Importers of areca leaf plates usually ask for a registration to check the supplier, a food-contact test report and,
+            Importers of areca leaf plates usually ask for registrations to check the supplier, a food-contact test report and,
             for some markets, a compostability certificate. Shipments also need origin and, where required, plant-health papers.
           </p>
 
@@ -98,7 +129,7 @@ export default function CertificatesPage() {
                     <td className="px-5 py-4 leading-relaxed text-muted">{c.shows}</td>
                     <td className="w-40 px-5 py-4">
                       {c.status === "held" ? (
-                        <span className="font-medium text-forest">Registered</span>
+                        <span className="font-medium text-forest">Published above</span>
                       ) : (
                         <span className="text-muted">Ask us</span>
                       )}

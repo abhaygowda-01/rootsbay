@@ -43,3 +43,7 @@ next-env.d.ts
 
 # local enquiry log (dev)
 .data/
+
+# local tool folders (editor / assistant settings, not part of the site)
+.claude/
+.qodo/

@@ -33,6 +33,7 @@ const orgJsonLd = {
   name: site.name,
   slogan: site.tagline,
   url: site.url,
+  founder: { "@type": "Person", name: site.founder.name },
   logo: `${site.url}/brand/logo-full.png`,
   email: site.contact.email,
   telephone: site.contact.phone.replace(/\s/g, ""),

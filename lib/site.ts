@@ -1,24 +1,48 @@
 /**
  * Single source of truth for company details.
- * Everything on the site (header, footer, contact block, JSON-LD, emails)
+ * Everything on the site (header, footer, contact page, JSON-LD, emails)
  * reads from here — edit once, it updates everywhere.
+ *
+ * Lines marked PLACEHOLDER are waiting for a real value from Rootsbay.
+ * The README lists every placeholder in the project and where to fill it.
  */
+
+/**
+ * PLACEHOLDER — ordering terms. Fill in any of these and an "Ordering at a glance" panel
+ * appears on the contact page; fields left as "" are hidden, so nothing half-empty shows.
+ * Example values: moq "10,000 pieces per shape", priceBasis "FOB Bengaluru / Chennai / Mundra",
+ * leadTime "3 to 4 weeks after order confirmation".
+ */
+const ordering: Record<"moq" | "priceBasis" | "leadTime" | "packing" | "samples" | "markets", string> = {
+  moq: "",
+  priceBasis: "",
+  leadTime: "",
+  packing: "",
+  samples: "",
+  markets: "",
+};
+
 export const site = {
   name: "Rootsbay",
-  legalName: "Rootsbay",
+  // Legal name and trade name as printed on the GST and IEC certificates (a proprietorship).
+  legalName: "Abhay S Gowda",
+  tradeName: "Rootsbay",
+  founder: { name: "Abhay S Gowda", role: "Founder" },
   tagline: "Beyond Borders",
   description:
     "Rootsbay is an agro-export company in Bengaluru, India, supplying areca palm leaf plates, bowls and trays to importers, distributors and caterers worldwide.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rootsbay.co",
 
   contact: {
-    email: "connect@rootsbay.co",
+    // Mobile and email as printed on Rootsbay's Udyam registration certificate (Abhay S Gowda).
+    // PLACEHOLDER — swap for a business mailbox (e.g. connect@rootsbay.co) or a dedicated
+    // sales number once one exists. Changing these four lines updates the whole site.
+    email: "abhaygowda.work@gmail.com",
     phone: "+91 98443 64352",
     phoneHref: "tel:+919844364352",
-    // WhatsApp click-to-chat. Confirm this number is on WhatsApp Business.
+    // WhatsApp click-to-chat. PLACEHOLDER — assumes the mobile above is on WhatsApp; confirm.
     whatsappHref:
-      "https://wa.me/919844364352?text=" +
-      encodeURIComponent("Hello Rootsbay, I'd like a quote for areca leaf tableware."),
+      "https://wa.me/919844364352?text=" + encodeURIComponent("Hello Rootsbay, I'd like a quote for areca leaf tableware."),
   },
 
   address: {
@@ -34,16 +58,17 @@ export const site = {
       encodeURIComponent("1488 Krishnadevaraya Road, Vijayanagar, Bengaluru 560040"),
   },
 
-  // TODO(verify): signboard reads "29EHIPG1769RIZE". GSTIN format is
-  // 2-digit state + 10-char PAN + entity digit + "Z" + checksum, so the 13th
-  // character should be the digit 1 → "29EHIPG1769R1ZE". Confirm with the GST certificate.
+  // Confirmed against the GST registration certificate dated 16 September 2026.
   gstin: "29EHIPG1769R1ZE",
 
-  // Add profile URLs when available; empty entries are hidden.
+  // PLACEHOLDER — add profile URLs when they exist (e.g. "https://www.linkedin.com/company/rootsbay").
+  // Empty entries are hidden from the footer.
   social: {
     linkedin: "",
     instagram: "",
   },
+
+  ordering,
 
   catalogPdf: "/rootsbay-areca-catalog.pdf",
 } as const;

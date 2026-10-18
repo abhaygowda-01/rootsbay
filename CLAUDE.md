@@ -17,12 +17,13 @@ sections, carousels, popups or animations unless asked.
   `middleware` is now `proxy`, `next/image` `qualities` defaults to [75])
 - zod v4 for validation, fonts self-hosted via @fontsource (no Google Fonts call at build)
 - No database. Enquiries go out by email (Resend) and/or a webhook. See `.env.example`.
+- Owner works on Windows + VS Code (PowerShell). `.vscode/`, `.editorconfig` and `.gitattributes` (LF line endings) are set up for that.
 
 ## Where things live
 | What | File |
 | --- | --- |
-| Company details (phone, email, address, GSTIN, socials) | `lib/site.ts` |
-| Products, filters, shared range claims | `lib/products.ts` |
+| Company details (phone, email, address, GSTIN, socials, founder, ordering terms) | `lib/site.ts` |
+| Products, product lines, filters, shared range claims | `lib/products.ts` |
 | Form schema (shared client + server) | `lib/enquiry-schema.ts` |
 | Enquiry API | `app/api/enquiry/route.ts` → `lib/notify.ts` (Resend / webhook / dev file) |
 | Rate limiting (in-memory) | `lib/rate-limit.ts` |
@@ -31,8 +32,9 @@ sections, carousels, popups or animations unless asked.
 | Product lines (agriculture, handicrafts, biodegradable tableware) | `categories` in `lib/products.ts`; page `app/products/[category]/page.tsx` |
 | Product detail pages (static, 20) | `app/products/[category]/[slug]/page.tsx` → `/products/biodegradable-tableware/<slug>` |
 | Per-page metadata, canonical, breadcrumbs | `pageMeta()` and `breadcrumbJsonLd()` in `lib/seo.ts`; `components/Breadcrumbs.tsx` |
-| Certificates and export documents | `lib/certificates.ts` (only `status: "held"` items are shown as held) |
+| Certificates (GST, IEC, Udyam published) | `lib/certificates.ts` + `public/certificates/` (PDF and page-one `.webp` per certificate) |
 | Buyer Q&A (SEO answer blocks) | `lib/faq.ts` |
+| "Ordering at a glance" panel (hidden until filled) | `ordering` in `lib/site.ts`, `components/OrderingTerms.tsx` |
 | Nav links (header + footer) | `mainNav` in `lib/site.ts` |
 | Design tokens (colours, fonts) | `app/globals.css` `@theme` |
 | Logo files (cut from signboard photo) | `public/brand/` ; favicon `app/icon.png` |
@@ -48,36 +50,41 @@ sections, carousels, popups or animations unless asked.
 - Only motion: one hero load reveal (`.rise`). Respect reduced motion.
 
 ## Open items (confirm with Rootsbay before launch)
-1. **GSTIN** — signboard reads `29EHIPG1769RIZE`; site uses `29EHIPG1769R1ZE` (correct format). Confirm.
+The README has the full handover table (what to fill, and where). In short:
+1. **GSTIN** — confirmed: `29EHIPG1769R1ZE` matches the GST certificate dated 16 Sep 2026 (the signboard spelling `...RIZE` was a misread).
 2. **Product photos** — SKUs 01–04 use real photos; 05–20 are small crops from the PDF collage (upscaled, soft).
    Replace with proper photos at ≥1200 px, same filenames.
-3. **Copy to verify**: "we reply within one working day" promise (form + auto-reply), process steps (soak, sun-dry, inspect, export cartons) and About text (sourcing, QC,
-   paperwork, shipping) are reasonable defaults, not supplied facts. Catalogue claims (100 °C, microwave 2 min,
-   compostable 60–90 days, 350 ml) come from the supplied PDF.
-4. MOQ, pricing basis (FOB/CIF), certifications (FSSAI, IEC, APEDA, FDA/LFGB tests), packing (pcs/carton),
-   lead time, export markets — none supplied. Add a short "Ordering" block or FAQ once known.
-   `/certificates` shows only the GST registration as held; every other document reads "Ask us" until the real
-   file is added to `public/certificates/` and its entry in `lib/certificates.ts` is set to `status: "held"`.
-   Never mark a document held (or write "FDA approved" / "certified compostable") without the paper.
-8. "Coming soon" lines (agriculture, handicrafts) are `noindex` and left out of the sitemap until their
-   `status` in `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
-9. Copy added on the page split (about, how it's made, pitch lines per SKU in `lib/products.ts`, buyer Q&A in `lib/faq.ts`)
-   reuses the catalogue figures and the existing process wording; the pitch lines are marketing copy. Read it once for accuracy.
-5. WhatsApp number assumed same as phone.
-6. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
-7. Email delivery: set `RESEND_API_KEY` + verify rootsbay.co in Resend, or set `ENQUIRY_WEBHOOK_URL`.
+3. **Copy to verify**: the "we reply within one working day" promise (form + auto-reply), process steps (soak, sun-dry, inspect,
+   export cartons), About text (sourcing, QC, paperwork, shipping), SKU pitch lines (`lib/products.ts`) and buyer Q&A (`lib/faq.ts`)
+   are reasonable defaults, not supplied facts. Catalogue claims (100 °C, microwave 2 min, compostable 60–90 days, 350 ml) come
+   from the supplied PDF.
+4. **Ordering terms** (MOQ, pricing basis, lead time, packing, samples, markets) — none supplied. Fill `ordering` in `lib/site.ts`;
+   the panel on `/contact` stays hidden until at least one field has text.
+5. **Certificates** — `/certificates` publishes the GST, IEC and Udyam certificates (PDFs + page-one previews in
+   `public/certificates/`). Food-contact test report, compostability certificate, certificate of origin and phytosanitary
+   certificate read "Ask us" until the real file is added and its entry in `lib/certificates.ts` is set to `status: "held"`.
+   Never mark a document held, or write "FDA approved" / "certified compostable", without the paper.
+6. **Public contact details** (`lib/site.ts` → `contact`) are the mobile and email printed on the Udyam certificate (Abhay S Gowda).
+   WhatsApp is assumed to be that same mobile. Swap for a business mailbox / sales number if one exists.
+7. **"Coming soon" lines** (agriculture, handicrafts) are `noindex` and left out of the sitemap until their `status` in
+   `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
+8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
+9. Email delivery: set `RESEND_API_KEY` (and verify rootsbay.co in Resend for a branded sender), or set `ENQUIRY_WEBHOOK_URL`.
+10. **No personal details of whoever built the site** belong in the repo, on the site, or in git author fields. Only Rootsbay and
+    Abhay S Gowda details taken from the certificates. Keep it that way when editing.
 
-## Commands
-- `npm run dev` — local dev (enquiries saved to `.data/enquiries.jsonl` when no channel is configured)
-- `npm run build && npm start` — production check
-- `npm run lint`
+## Commands (Windows / PowerShell / VS Code)
+- `npm run dev` — local dev at http://localhost:3000 (enquiries saved to `.data/enquiries.jsonl` when no channel is configured)
+- `npm run verify` — lint + type check + production build; then `npm start` to serve the build
+- `npm run lint`, `npm run typecheck`, `npm run clean` (deletes `.next`)
+- New PC: `npm install`, then `Copy-Item .env.example .env.local`. VS Code tasks and debug config are in `.vscode/`.
 - Deploy: push to GitHub → import in Vercel → add env vars → point rootsbay.co DNS to Vercel.
 
 ## Natural next steps
-- Ordering / FAQ block (MOQ, samples, lead time, Incoterms, certifications)
+- Fill the ordering terms (open item 4) and add more buyer Q&A once MOQ, samples, lead time and Incoterms are known
 - Real product photography; maybe a 2-up gallery per product
 - Swap in-memory rate limit for Upstash if spam appears; add Cloudflare Turnstile if needed
 - Add products to a new line by setting its `categories` entry to `status: "available"` and adding items with that `category`
   (the category page, products bar, hub cards, sitemap and product URLs all follow). Add a `faqByCategory` entry in `lib/faq.ts` for its buyer Q&A.
-- Real photography for the coming-soon lines, then a `image` on their `categories` entry for the hub and home cards
+- Real photography for the coming-soon lines, then an `image` on their `categories` entry for the hub and home cards
 - Analytics (Vercel Analytics or GA4) and Google Search Console + sitemap submission
