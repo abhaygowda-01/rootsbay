@@ -10,20 +10,31 @@ type Status = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; id: strin
 const field =
   "mt-1.5 w-full rounded-md border border-line bg-white px-3 py-2.5 text-[0.95rem] text-ink placeholder:text-muted/60 focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15";
 
+/** Opening line for the message box when a page links here with ?topic=… */
+const topicMessages: Record<string, string> = {
+  agriculture: "I'm interested in agriculture products from Rootsbay. Please let me know when the range is available.",
+  handicrafts: "I'm interested in handicrafts from Rootsbay. Please let me know when the range is available.",
+  documents: "Please send details of the certificates and test reports available for your areca leaf tableware.",
+};
+
 export function EnquiryForm() {
   const [selected, setSelected] = useState<string[]>([]);
+  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const startedAt = useRef<number>(0);
 
-  // Pre-select a product when arriving from a product page: /?product=RB-AL-04#enquiry
+  // Pre-fill when arriving from another page: /contact?product=RB-AL-04 or /contact?topic=agriculture
   useEffect(() => {
     startedAt.current = Date.now();
-    const code = new URLSearchParams(window.location.search).get("product");
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("product");
     if (code && products.some((p) => p.code === code)) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- reading the URL once on mount
       setSelected([code]);
     }
+    const topic = topicMessages[params.get("topic") ?? ""];
+    if (topic) setMessage(topic);
   }, []);
 
   function toggle(code: string) {
@@ -179,6 +190,8 @@ export function EnquiryForm() {
         <textarea
           {...aria("message")}
           rows={4}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           placeholder="Custom sizes, packaging, branding, target port, delivery date…"
           className={field}
         />

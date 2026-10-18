@@ -2,36 +2,48 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { JsonLd } from "@/components/JsonLd";
+import { ProductCard } from "@/components/ProductCard";
 import { ShapeOutline } from "@/components/ShapeOutline";
-import { categories, getProduct, products, rangeFacts, shortName } from "@/lib/products";
+import { getCategory, getProduct, productHref, products, rangeFacts, seoTitle, shortName } from "@/lib/products";
+import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
+// Every product is prerendered by generateStaticParams, so navigations are served from the static cache.
+// Dev-only "instant navigation" validation still flags `await params` at the top of the page; opt out.
+export const instant = false;
+
 export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+  return products.map((p) => ({ category: p.category, slug: p.slug }));
 }
 
-export async function generateMetadata(props: PageProps<"/products/[slug]">): Promise<Metadata> {
-  const { slug } = await props.params;
+function find(categoryId: string, slug: string) {
   const p = getProduct(slug);
+  return p && p.category === categoryId ? p : undefined;
+}
+
+export async function generateMetadata(props: PageProps<"/products/[category]/[slug]">): Promise<Metadata> {
+  const { category, slug } = await props.params;
+  const p = find(category, slug);
   if (!p) return {};
-  const title = `${p.name} (${p.sizeLabel})`;
-  return {
-    title,
-    description: `${p.summary} Areca palm leaf, chemical-free and compostable. Bulk export from India by Rootsbay.`,
-    alternates: { canonical: `/products/${p.slug}` },
-    openGraph: { title, images: [{ url: p.image }] },
-  };
+  return pageMeta({
+    title: seoTitle(p),
+    description: `${p.summary} Areca leaf, chemical-free and home compostable. Bulk export from India.`,
+    path: productHref(p),
+    image: { url: p.image, alt: `${p.name} in use` },
+  });
 }
 
-export default async function ProductPage(props: PageProps<"/products/[slug]">) {
-  const { slug } = await props.params;
-  const p = getProduct(slug);
-  if (!p) notFound();
+export default async function ProductPage(props: PageProps<"/products/[category]/[slug]">) {
+  const { category: categoryId, slug } = await props.params;
+  const p = find(categoryId, slug);
+  const category = getCategory(categoryId);
+  if (!p || !category) notFound();
 
-  const category = categories.find((c) => c.id === p.category);
   const related = products
     .filter((x) => x.slug !== p.slug && (x.shape === p.shape || x.form === p.form))
-    .slice(0, 4);
+    .slice(0, 3);
 
   const specs: [string, string][] = [
     ["Product code", p.code],
@@ -46,7 +58,9 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
     "@type": "Product",
     name: p.name,
     sku: p.code,
-    description: p.description,
+    url: `${site.url}${productHref(p)}`,
+    category: category.name,
+    description: `${p.description} ${p.pitch}`,
     image: `${site.url}${p.image}`,
     material: "Areca palm leaf",
     brand: { "@type": "Brand", name: site.name },
@@ -55,18 +69,18 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-10 sm:px-6 md:py-16">
-      <nav aria-label="Breadcrumb" className="text-sm text-muted">
-        <Link href="/#range" className="hover:text-forest">
-          {category?.name ?? "Products"}
-        </Link>
-        <span aria-hidden="true"> / </span>
-        <span className="text-ink">{shortName(p)}</span>
-      </nav>
+      <Breadcrumbs
+        items={[
+          { name: "Products", path: "/products" },
+          { name: category.name, path: `/products/${category.id}` },
+          { name: shortName(p), path: productHref(p) },
+        ]}
+      />
 
-      <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-14">
+      <div className="mt-8 grid gap-10 md:grid-cols-[1.15fr_1fr] md:gap-14">
         <figure>
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-sheath">
-            <Image src={p.image} alt={`${p.name} in use`} fill priority sizes="(min-width: 768px) 540px, 92vw" className="object-cover" />
+            <Image src={p.image} alt={`${p.name} in use`} fill priority sizes="(min-width: 768px) 620px, 92vw" className="object-cover" />
           </div>
           <figcaption className="dim mt-4 text-sm">
             <span>{p.sizeLabel}</span>
@@ -76,7 +90,8 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
         <div>
           <p className="text-sm text-muted">{p.code}</p>
           <h1 className="mt-1 text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">{p.name}</h1>
-          <p className="mt-5 text-lg leading-relaxed text-muted">{p.description}</p>
+          <p className="mt-5 text-lg leading-relaxed text-ink/90">{p.description}</p>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{p.pitch}</p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
             {p.highlights.map((h) => (
@@ -103,7 +118,7 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              href={`/?product=${p.code}#enquiry`}
+              href={`/contact?product=${p.code}`}
               className="rounded-full bg-forest px-6 py-3 font-medium text-white transition-colors hover:bg-forest-600"
             >
               Request a quote for this item
@@ -130,30 +145,29 @@ export default async function ProductPage(props: PageProps<"/products/[slug]">) 
             </li>
           ))}
         </ul>
+        <p className="mt-8 text-muted">
+          Want to know how it is made?{" "}
+          <Link href="/how-its-made" className="font-medium text-forest underline underline-offset-4">
+            See the four steps
+          </Link>
+          .
+        </p>
       </section>
 
       {related.length > 0 && (
         <section className="mt-16">
           <h2 className="text-2xl font-semibold text-forest">Similar shapes</h2>
-          <ul className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+          <ul className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <li key={r.slug}>
-                <Link href={`/products/${r.slug}`} className="group block">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-sheath">
-                    <Image src={r.image} alt="" fill sizes="(min-width: 1024px) 270px, 45vw" className="object-cover" />
-                  </div>
-                  <p className="mt-2 text-[0.95rem] font-medium group-hover:text-forest">{shortName(r)}</p>
-                </Link>
+                <ProductCard product={r} />
               </li>
             ))}
           </ul>
         </section>
       )}
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd).replace(/</g, "\\u003c") }}
-      />
+      <JsonLd data={productJsonLd} />
     </article>
   );
 }

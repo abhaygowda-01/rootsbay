@@ -2,10 +2,12 @@
 
 Website for [Rootsbay](https://www.rootsbay.co) — agro exports from Bengaluru, starting with areca palm leaf tableware.
 
-- One home page: hero → product range (20 items, filter by shape) → about → how it's made → quote request
-- 20 static product pages at `/products/<slug>` with specs and a "request a quote for this item" link
+- Separate pages: home, `/products` (hub), `/about`, `/how-its-made`, `/certificates`, `/contact`
+- Product lines as their own pages under `/products/<line>`: biodegradable tableware (live, 20 items with a shape filter), agriculture and handicrafts (coming soon)
+- 20 static product pages at `/products/biodegradable-tableware/<slug>` with specs and a "request a quote for this item" link
+- A "Products" title bar on every `/products` page with one tab per line
 - Working enquiry backend at `POST /api/enquiry` (validation, honeypot + timing spam guard, rate limit, email/webhook delivery)
-- SEO basics: per-page metadata, Open Graph, `sitemap.xml`, `robots.txt`, Organization + Product JSON-LD
+- SEO: per-page title, description, canonical and share card, `sitemap.xml`, `robots.txt`, Organization, Breadcrumb, Product and ItemList JSON-LD
 
 ## Run it
 
@@ -37,8 +39,10 @@ Prefer a spreadsheet? Set `ENQUIRY_WEBHOOK_URL` to a Google Apps Script web app 
 | Change | File |
 | --- | --- |
 | Phone, email, address, GSTIN, social links | `lib/site.ts` |
-| Products (names, sizes, text, images) | `lib/products.ts` + `public/images/products/` |
-| Home page text | `app/page.tsx` |
+| Products (names, sizes, text, images) and product lines | `lib/products.ts` + `public/images/products/` |
+| Certificates and export documents | `lib/certificates.ts` + `public/certificates/` |
+| Buyer Q&A on the tableware page | `lib/faq.ts` |
+| Page text | `app/page.tsx`, `app/about/`, `app/how-its-made/`, `app/contact/`, `app/products/` |
 | Colours and fonts | `app/globals.css` |
 
 See `CLAUDE.md` for the full map, design rules and the list of things to confirm with Rootsbay before launch.

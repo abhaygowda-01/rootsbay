@@ -48,4 +48,13 @@ export const site = {
   catalogPdf: "/rootsbay-areca-catalog.pdf",
 } as const;
 
+/** Top-level pages, in header order. The footer reads the same list. */
+export const mainNav = [
+  { href: "/products", label: "Products" },
+  { href: "/about", label: "About" },
+  { href: "/how-its-made", label: "How it's made" },
+  { href: "/certificates", label: "Certificates" },
+  { href: "/contact", label: "Contact" },
+] as const;
+
 export type Site = typeof site;

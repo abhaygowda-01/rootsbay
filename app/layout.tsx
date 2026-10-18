@@ -2,32 +2,25 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { defaultImage } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Rootsbay — Areca leaf plates and bowls, exported from India",
+    default: "Areca leaf plates exporter from India | Rootsbay",
     template: "%s | Rootsbay",
   },
   description: site.description,
   applicationName: site.name,
-  keywords: [
-    "areca leaf plates",
-    "palm leaf plates exporter",
-    "areca leaf plates manufacturer India",
-    "biodegradable tableware",
-    "compostable plates wholesale",
-    "Rootsbay",
-  ],
+  // Each page sets its own canonical, title and share card through pageMeta() in lib/seo.ts.
   openGraph: {
     type: "website",
     siteName: site.name,
     locale: "en_IN",
-    images: [{ url: "/images/products/02.webp", width: 1024, height: 1024, alt: "Areca leaf square tray with hummus and pita" }],
+    images: [defaultImage],
   },
   twitter: { card: "summary_large_image" },
-  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {

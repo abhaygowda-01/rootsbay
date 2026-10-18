@@ -1,12 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-
-const nav = [
-  { href: "/#range", label: "Products" },
-  { href: "/#about", label: "About" },
-  { href: "/#process", label: "How it's made" },
-  { href: "/#contact", label: "Contact" },
-];
+import { DesktopNav, MobileNav } from "./Nav";
 
 export function Header() {
   return (
@@ -17,20 +11,17 @@ export function Header() {
           <Image src="/brand/logo-word.png" alt="Rootsbay" width={468} height={183} className="h-8 w-auto" priority />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-7 text-[0.95rem] text-muted md:flex">
-          {nav.map((n) => (
-            <Link key={n.href} href={n.href} className="transition-colors hover:text-forest">
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        <DesktopNav />
 
-        <Link
-          href="/#enquiry"
-          className="rounded-full bg-forest px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-forest-600"
-        >
-          Request a quote
-        </Link>
+        <div className="flex items-center gap-1">
+          <Link
+            href="/contact"
+            className="hidden rounded-full bg-forest px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-forest-600 sm:inline-block"
+          >
+            Request a quote
+          </Link>
+          <MobileNav />
+        </div>
       </div>
     </header>
   );

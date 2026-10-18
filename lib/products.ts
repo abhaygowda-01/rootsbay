@@ -13,7 +13,7 @@ export type Form = "plate" | "bowl" | "tray";
 export type Product = {
   slug: string;
   code: string; // internal SKU-style code used in enquiries
-  category: string;
+  category: CategoryId;
   name: string;
   shape: Shape;
   form: Form;
@@ -24,20 +24,83 @@ export type Product = {
   bestFor: string;
   summary: string;
   description: string;
+  /** Longer selling copy for the product page (written for Rootsbay, not from the catalogue). */
+  pitch: string;
   highlights: string[];
   image: string;
   /** true = real product photograph; false = small crop from the PDF catalogue collage */
   photo: boolean;
 };
 
-export const categories = [
+export type CategoryId = "biodegradable-tableware" | "agriculture" | "handicrafts";
+
+export type Category = {
+  id: CategoryId;
+  name: string;
+  status: "available" | "coming-soon";
+  /** One line for cards and the products hub. */
+  blurb: string;
+  /** Opening paragraph of the category page (also the answer block for search). */
+  intro: string;
+  /** Page <title> (the site template adds "| Rootsbay") and meta description. */
+  seoTitle: string;
+  seoDescription: string;
+  /** Real photo for cards; categories without one are drawn as type-only cards. */
+  image?: { src: string; alt: string };
+};
+
+/**
+ * Product lines. Order = order in the products bar and on the hub page.
+ * To open a new line: set `status: "available"` and add products with that `category`.
+ */
+export const categories: Category[] = [
   {
-    id: "areca-leaf-tableware",
-    name: "Areca leaf tableware",
-    blurb:
-      "Plates, bowls and trays heat-pressed from naturally fallen areca palm leaf sheaths.",
+    id: "biodegradable-tableware",
+    name: "Biodegradable tableware",
+    status: "available",
+    blurb: "Areca leaf plates, bowls and trays — 20 shapes from 4 to 11 inches, home compostable.",
+    intro:
+      "Biodegradable tableware from Rootsbay is made from areca palm leaf sheaths that fall naturally in Karnataka, India. Each sheath is washed, dried and heat-pressed into a plate, bowl or tray with nothing added — no glue, wax or coating. Choose from 20 shapes between 4 and 11 inches, packed for importers, distributors and caterers.",
+    seoTitle: "Biodegradable areca leaf plates, bowls and trays",
+    seoDescription:
+      "Areca leaf plates, bowls and trays exported from India: 20 shapes from 4 to 11 inches, heat resistant to 100 °C, home compostable. Request bulk pricing.",
+    image: { src: "/images/products/03.webp", alt: "Round areca leaf plate holding a quinoa salad with grilled chicken" },
   },
-] as const;
+  {
+    id: "agriculture",
+    name: "Agriculture",
+    status: "coming-soon",
+    blurb: "Farm produce from Karnataka, prepared for export. Coming soon.",
+    intro:
+      "Rootsbay was set up to carry agricultural products from Karnataka's farms to buyers abroad. Our agriculture range is being prepared and will appear on this page when it is ready for export orders.",
+    seoTitle: "Agriculture products from India, coming soon",
+    seoDescription:
+      "Rootsbay's agriculture range from Karnataka, India is coming soon. Tell us what you want to import and we will get back to you.",
+  },
+  {
+    id: "handicrafts",
+    name: "Handicrafts",
+    status: "coming-soon",
+    blurb: "Handmade goods from Indian artisans, in preparation. Coming soon.",
+    intro:
+      "A handicraft range is on its way. We will show it on this page as soon as it is ready for export buyers. If you are looking for handmade goods from India, tell us what you need and we will get back to you.",
+    seoTitle: "Indian handicrafts for export, coming soon",
+    seoDescription:
+      "Rootsbay's handicraft range from India is coming soon. Tell us what you are looking for and we will get back to you.",
+  },
+];
+
+export function getCategory(id: string) {
+  return categories.find((c) => c.id === id);
+}
+
+export function productsIn(categoryId: CategoryId) {
+  return products.filter((p) => p.category === categoryId);
+}
+
+export function productHref(p: Pick<Product, "category" | "slug">) {
+  return `/products/${p.category}/${p.slug}`;
+}
 
 export const shapeFilters: { id: "all" | Shape | "bowl"; label: string }[] = [
   { id: "all", label: "All shapes" },
@@ -47,9 +110,9 @@ export const shapeFilters: { id: "all" | Shape | "bowl"; label: string }[] = [
   { id: "bowl", label: "Bowls" },
 ];
 
-const C = "areca-leaf-tableware";
+const C = "biodegradable-tableware";
 
-export const products: Product[] = [
+const catalogue: Omit<Product, "pitch">[] = [
   {
     slug: "4-inch-round-dessert-plate",
     code: "RB-AL-01",
@@ -412,6 +475,52 @@ export const products: Product[] = [
   },
 ];
 
+/** Selling copy per SKU: how the piece is used. No new technical claims — specs stay in `catalogue`. */
+const pitches: Record<string, string> = {
+  "RB-AL-01":
+    "A small plate with a big presence on a dessert table. Stack a few beside the fruit bowl, or set one at each place for a sweet finish, and guests get a natural, rustic plate with no washing up.",
+  "RB-AL-02":
+    "Square lines make a tidy canapé tray. Use it for a hummus-and-pita spread, a cheese and cracker pairing, or passed finger food at a cocktail evening.",
+  "RB-AL-03":
+    "The everyday full-size plate of the range. The wide, gently sloped rim frames grain bowls, salads and grilled mains the way a ceramic plate would, with the warm grain of the leaf as the backdrop.",
+  "RB-AL-04":
+    "Long and low, made for sushi, dim sum and bento-style plating. The rectangular shape lets caterers line up rolls in a row and keep sauces to one side.",
+  "RB-AL-05":
+    "A sturdy square dinner plate for the grill and the buffet line. It carries a steak, charred vegetables and a side without bowing, so outdoor events run smoothly.",
+  "RB-AL-06":
+    "Raised sidewalls keep gravy where it belongs. Rice, curry, dal and other saucy mains sit comfortably, which makes it a natural fit for restaurants and caterers serving Indian, Thai and similar cuisines.",
+  "RB-AL-07":
+    "A compact bowl for the first course. Hot soup, broth or breakfast cereal stays in the bowl and the hands stay comfortable — handy for events with a soup station.",
+  "RB-AL-08":
+    "Wide enough to twirl pasta, deep enough to hold the sauce. Suited to noodle bars, Italian caterers and lunch services that serve saucy dishes.",
+  "RB-AL-09":
+    "The workhorse of wedding and buffet service. Breads, rice and curries share one platter with room to spare, so guests make one trip to the counter.",
+  "RB-AL-10":
+    "A neat little plate for the cake counter. A slice of cake, a pastry or petit fours look at home on its flat, clean surface at bakeries, tea services and dessert stations.",
+  "RB-AL-11":
+    "A slightly recessed small plate for nuts, olives and bar snacks. It stacks compactly, so a tall pile takes little room on the bar or in the storeroom.",
+  "RB-AL-12":
+    "Sized for a burger and a generous portion of fries. The wide flat centre and grease resistance suit food trucks, street-food stalls and backyard barbecues.",
+  "RB-AL-13":
+    "The largest serving surface in the range. Bring roasted vegetables, grilled meats or a shared starter to the table on one tray, family style.",
+  "RB-AL-14":
+    "An all-rounder bowl for ramen, noodles and stir-fries. Each bowl has its own grain pattern, so a table of them looks natural rather than uniform.",
+  "RB-AL-15":
+    "A classic round plate for cheese, cured meats and crackers. The firm surface takes a knife for slicing soft cheese, and the natural tone flatters artisanal produce.",
+  "RB-AL-16":
+    "A generous basin for fruit salad and shared sides. The neutral tone of the leaf lets the colour of the fruit show, and juices stay inside the bowl.",
+  "RB-AL-17":
+    "A mini bowl for ice cream, sorbet, pudding or dips. The leaf insulates naturally, so cold desserts stay cool a little longer.",
+  "RB-AL-18":
+    "An oval boat that cradles a taco, hot dog or wrap. Fillings stay in, and the curved shape makes a street-food stall look considered.",
+  "RB-AL-19":
+    "Croissants, toast and morning pastries on a flat, rigid base that stays firm under butter. A good match for hotel breakfast service and cafés.",
+  "RB-AL-20":
+    "The flagship for sharing. Hummus, dips, pita and small plates sit together on the largest round in the range — the centrepiece of a meze or tapas table.",
+};
+
+export const products: Product[] = catalogue.map((p) => ({ ...p, pitch: pitches[p.code] }));
+
 /** Compact label for chips and lists, e.g. `9″ deep rim plate`. */
 export function shortName(p: Product) {
   const special: Record<string, string> = {
@@ -430,6 +539,19 @@ export function shortName(p: Product) {
 
 export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug);
+}
+
+/**
+ * Page title in the words buyers search with, plus the first use case so no two titles match
+ * (RB-AL-06 and RB-AL-12 are both 9-inch round plates), e.g. `10-inch square areca leaf plate for buffets`.
+ * Trays and boats keep their shape word: `9 × 6-inch rectangular areca leaf tray for sushi`.
+ */
+export function seoTitle(p: Product) {
+  const { width: w, height: h } = p.size;
+  const dims = p.shape === "rectangle" || p.shape === "oval" ? `${w} × ${h}-inch` : `${w}-inch`;
+  const shape = p.shape === "rectangle" ? "rectangular" : p.shape;
+  const use = p.bestFor.split(",")[0].trim().toLowerCase();
+  return `${dims} ${shape} areca leaf ${p.form} for ${use}`;
 }
 
 export function matchesFilter(p: Product, filter: (typeof shapeFilters)[number]["id"]) {

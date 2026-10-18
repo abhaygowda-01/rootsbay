@@ -26,8 +26,14 @@ sections, carousels, popups or animations unless asked.
 | Form schema (shared client + server) | `lib/enquiry-schema.ts` |
 | Enquiry API | `app/api/enquiry/route.ts` → `lib/notify.ts` (Resend / webhook / dev file) |
 | Rate limiting (in-memory) | `lib/rate-limit.ts` |
-| Home page sections | `app/page.tsx` |
-| Product detail pages (static, 20) | `app/products/[slug]/page.tsx` |
+| Pages | `app/page.tsx` (home), `app/about/`, `app/how-its-made/`, `app/certificates/`, `app/contact/` |
+| Products hub + "Products" title bar | `app/products/page.tsx`, `app/products/layout.tsx`, `components/ProductsNav.tsx` |
+| Product lines (agriculture, handicrafts, biodegradable tableware) | `categories` in `lib/products.ts`; page `app/products/[category]/page.tsx` |
+| Product detail pages (static, 20) | `app/products/[category]/[slug]/page.tsx` → `/products/biodegradable-tableware/<slug>` |
+| Per-page metadata, canonical, breadcrumbs | `pageMeta()` and `breadcrumbJsonLd()` in `lib/seo.ts`; `components/Breadcrumbs.tsx` |
+| Certificates and export documents | `lib/certificates.ts` (only `status: "held"` items are shown as held) |
+| Buyer Q&A (SEO answer blocks) | `lib/faq.ts` |
+| Nav links (header + footer) | `mainNav` in `lib/site.ts` |
 | Design tokens (colours, fonts) | `app/globals.css` `@theme` |
 | Logo files (cut from signboard photo) | `public/brand/` ; favicon `app/icon.png` |
 | Product images | `public/images/products/NN.webp` (NN = SKU number) |
@@ -50,6 +56,13 @@ sections, carousels, popups or animations unless asked.
    compostable 60–90 days, 350 ml) come from the supplied PDF.
 4. MOQ, pricing basis (FOB/CIF), certifications (FSSAI, IEC, APEDA, FDA/LFGB tests), packing (pcs/carton),
    lead time, export markets — none supplied. Add a short "Ordering" block or FAQ once known.
+   `/certificates` shows only the GST registration as held; every other document reads "Ask us" until the real
+   file is added to `public/certificates/` and its entry in `lib/certificates.ts` is set to `status: "held"`.
+   Never mark a document held (or write "FDA approved" / "certified compostable") without the paper.
+8. "Coming soon" lines (agriculture, handicrafts) are `noindex` and left out of the sitemap until their
+   `status` in `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
+9. Copy added on the page split (about, how it's made, pitch lines per SKU in `lib/products.ts`, buyer Q&A in `lib/faq.ts`)
+   reuses the catalogue figures and the existing process wording; the pitch lines are marketing copy. Read it once for accuracy.
 5. WhatsApp number assumed same as phone.
 6. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
 7. Email delivery: set `RESEND_API_KEY` + verify rootsbay.co in Resend, or set `ENQUIRY_WEBHOOK_URL`.
@@ -64,5 +77,7 @@ sections, carousels, popups or animations unless asked.
 - Ordering / FAQ block (MOQ, samples, lead time, Incoterms, certifications)
 - Real product photography; maybe a 2-up gallery per product
 - Swap in-memory rate limit for Upstash if spam appears; add Cloudflare Turnstile if needed
-- Add new agro product lines via `categories` in `lib/products.ts` (grid and pages are category-ready)
+- Add products to a new line by setting its `categories` entry to `status: "available"` and adding items with that `category`
+  (the category page, products bar, hub cards, sitemap and product URLs all follow). Add a `faqByCategory` entry in `lib/faq.ts` for its buyer Q&A.
+- Real photography for the coming-soon lines, then a `image` on their `categories` entry for the hub and home cards
 - Analytics (Vercel Analytics or GA4) and Google Search Console + sitemap submission
