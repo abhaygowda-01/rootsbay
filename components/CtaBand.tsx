@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { site } from "@/lib/site";
 
 /** Closing call to action shared by the inner pages. */
 export function CtaBand({
   title = "Ready to talk quantities?",
   body = "Tell us the shapes, quantity and destination. We'll send pricing, minimum order, samples and shipping options.",
   primary = { href: "/contact", label: "Request a quote" },
-  secondary = { href: site.catalogPdf, label: "Download catalogue (PDF)" },
+  secondary = { href: "/certificates", label: "See our certificates" },
 }: {
   title?: string;
   body?: string;

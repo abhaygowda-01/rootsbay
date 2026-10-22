@@ -85,8 +85,8 @@ export default function AboutPage() {
                 into income for farming families.
               </p>
               <p>
-                Nothing is cut from the tree and nothing is added to the leaf — no glue, wax or coating. After use, our catalogue
-                states the plates are home compostable within 60–90 days.
+                Nothing is cut from the tree and nothing is added to the leaf — no glue, wax or coating. After use, Rootsbay&apos;s
+                specification puts the plates at home compostable within 60–90 days.
               </p>
             </div>
             <Link href="/how-its-made" className="mt-8 inline-block font-medium text-forest underline underline-offset-4 hover:text-forest-600">

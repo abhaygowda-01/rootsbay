@@ -89,7 +89,7 @@ export const credentials: Credential[] = [
     id: "compostability",
     name: "Compostability certificate",
     shows:
-      "Third-party certification to a compostability standard such as EN 13432 (EU) or ASTM D6400 (US). The 60–90 day home-compost figure on our product pages is a catalogue claim, not a certificate.",
+      "Third-party certification to a compostability standard such as EN 13432 (EU) or ASTM D6400 (US). The 60–90 day home-compost figure on our product pages is Rootsbay's own specification, not a certificate.",
     status: "ask",
   },
   {

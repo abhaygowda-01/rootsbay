@@ -4,7 +4,7 @@ export type Faq = { q: string; a: string };
 
 /**
  * Buyer questions, answered first-sentence-first so each answer stands alone.
- * Every figure comes from the supplied catalogue (see lib/products.ts) — keep them in sync.
+ * Every figure comes from Rootsbay's product specification (see lib/products.ts) — keep them in sync.
  * Shown on the category page. Do not mark these up as FAQPage schema: Google no longer
  * shows FAQ rich results for commercial sites, so the visible text is all that matters.
  */
@@ -16,15 +16,15 @@ export const faqByCategory: Partial<Record<CategoryId, Faq[]>> = {
     },
     {
       q: "Are areca leaf plates compostable?",
-      a: "Yes. Rootsbay's areca leaf plates are a single natural material with no coating or glue, and our product catalogue states they are home compostable within 60–90 days after use. That figure is a catalogue claim rather than a third-party certificate; ask us which test reports and certificates are available.",
+      a: "Yes. Rootsbay's areca leaf plates are a single natural material with no coating or glue, and Rootsbay's specification puts them at home compostable within 60–90 days after use. That figure is our own specification rather than a third-party certificate; ask us which test reports and certificates are available.",
     },
     {
       q: "Can areca leaf plates hold hot food?",
-      a: "Yes. Rootsbay's areca leaf plates and bowls are heat resistant up to 100 °C and leak-resistant with light sauces, according to our catalogue. For gravies, curries and soups, choose a deep-sided piece such as the 9-inch deep rim plate (RB-AL-06) or the 5-inch soup bowl (RB-AL-07).",
+      a: "Yes. Rootsbay's areca leaf plates and bowls are heat resistant up to 100 °C and leak-resistant with light sauces, according to Rootsbay's specification. For gravies, curries and soups, choose a deep-sided piece such as the 9-inch deep rim plate (RB-AL-06) or the 5-inch soup bowl (RB-AL-07).",
     },
     {
       q: "Are areca leaf plates microwave safe?",
-      a: "Short reheats are fine: our catalogue lists microwaving for up to 2 minutes. For anything longer, move the food to a microwave-safe dish. If your customers will reheat food in the plates regularly, ask us about the specific shape before you order.",
+      a: "Short reheats are fine: our specification allows microwaving for up to 2 minutes. For anything longer, move the food to a microwave-safe dish. If your customers will reheat food in the plates regularly, ask us about the specific shape before you order.",
     },
     {
       q: "What sizes and shapes do you export?",

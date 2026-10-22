@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CategoryCards } from "@/components/CategoryCards";
 import { CtaBand } from "@/components/CtaBand";
+import { RangeOverview } from "@/components/RangeOverview";
 import { categories, products, rangeFacts } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 
@@ -82,34 +83,31 @@ export default function Home() {
 
       {/* Why areca leaf */}
       <section className="bg-sheath-50">
-        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 md:grid-cols-2 md:py-28">
-          <div>
-            <h2 className="text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
-              Why caterers and retailers choose areca leaf
-            </h2>
-            <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
-              Areca leaf plates look natural because they are. Each one is a single leaf sheath, heat-pressed into shape, so your
-              customers get a plate with no liner, glue or coating to ask about — and a story that is easy to tell.
-            </p>
-            <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-xl">
-              <Image
-                src="/images/products/04.webp"
-                alt="Rectangular areca leaf tray with sushi rolls"
-                fill
-                sizes="(min-width: 768px) 540px, 92vw"
-                className="object-cover"
-              />
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+          <div className="grid gap-12 md:grid-cols-2">
+            <div>
+              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
+                Why caterers and retailers choose areca leaf
+              </h2>
+              <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
+                Areca leaf plates look natural because they are. Each one is a single leaf sheath, heat-pressed into shape, so your
+                customers get a plate with no liner, glue or coating to ask about — and a story that is easy to tell.
+              </p>
             </div>
+
+            <dl className="grid content-start gap-x-8 gap-y-10 sm:grid-cols-2 md:pt-3">
+              {rangeFacts.map((f) => (
+                <div key={f.title} className="border-t-2 border-brass pt-4">
+                  <dt className="font-display text-xl font-semibold text-ink">{f.title}</dt>
+                  <dd className="mt-2 leading-relaxed text-muted">{f.body}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
-          <dl className="grid content-start gap-x-8 gap-y-10 sm:grid-cols-2 md:pt-3">
-            {rangeFacts.map((f) => (
-              <div key={f.title} className="border-t-2 border-brass pt-4">
-                <dt className="font-display text-xl font-semibold text-ink">{f.title}</dt>
-                <dd className="mt-2 leading-relaxed text-muted">{f.body}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-16">
+            <RangeOverview />
+          </div>
         </div>
       </section>
 

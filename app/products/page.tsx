@@ -6,7 +6,6 @@ import { PageHero } from "@/components/PageHero";
 import { ProductCard } from "@/components/ProductCard";
 import { products } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
-import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
   title: "Products: tableware, agriculture, handicrafts",
@@ -23,18 +22,7 @@ const preview = ["RB-AL-02", "RB-AL-03", "RB-AL-04"]
 export default function ProductsPage() {
   return (
     <>
-      <PageHero
-        title="Our product lines"
-        crumbs={<Breadcrumbs items={[{ name: "Products", path: "/products" }]} />}
-        actions={
-          <a
-            href={site.catalogPdf}
-            className="rounded-full border border-forest/30 px-6 py-3 font-medium text-forest transition-colors hover:border-forest"
-          >
-            Download catalogue (PDF)
-          </a>
-        }
-      >
+      <PageHero title="Our product lines" crumbs={<Breadcrumbs items={[{ name: "Products", path: "/products" }]} />}>
         Rootsbay exports from three product lines. Biodegradable tableware — areca leaf plates, bowls and trays — is available
         now. Agriculture and handicrafts are coming soon, and each line has its own page.
       </PageHero>

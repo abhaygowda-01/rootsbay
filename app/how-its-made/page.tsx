@@ -95,8 +95,8 @@ export default function HowItsMadePage() {
               What happens after the meal?
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-muted">
-              Because the plate is a single natural material, it can go to a compost heap whole. Our product catalogue states
-              areca leaf tableware is home compostable within 60–90 days after use.
+              Because the plate is a single natural material, it can go to a compost heap whole. Rootsbay&apos;s specification
+              puts areca leaf tableware at home compostable within 60–90 days after use.
             </p>
           </div>
         </div>

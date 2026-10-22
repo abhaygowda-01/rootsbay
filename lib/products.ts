@@ -1,10 +1,10 @@
 /**
- * Product catalogue.
+ * Product list.
  *
- * Source: "Areca Leaf Eco-Tableware Catalog" (20 options) supplied by Rootsbay.
- * Descriptions and claims are taken from that catalogue — keep them in sync
- * if the catalogue changes. Add new agro product lines by adding a category
- * to `categories` and items with that `category` id.
+ * Source: Rootsbay's "Areca Leaf Eco-Tableware" specification (20 options).
+ * Descriptions and claims come from it — keep them in sync if the specification
+ * changes. Add new agro product lines by adding a category to `categories`
+ * and items with that `category` id.
  */
 
 export type Shape = "round" | "square" | "rectangle" | "oval";
@@ -28,7 +28,7 @@ export type Product = {
   pitch: string;
   highlights: string[];
   image: string;
-  /** true = real product photograph; false = small crop from the PDF catalogue collage */
+  /** true = full-size product photograph; false = small crop from a collage image (soft when enlarged) */
   photo: boolean;
 };
 
@@ -562,7 +562,7 @@ export function matchesFilter(p: Product, filter: (typeof shapeFilters)[number][
   return p.shape === filter;
 }
 
-/** Facts shared by the whole areca range, as stated in the supplied catalogue. */
+/** Facts shared by the whole areca range, as stated in Rootsbay's specification. */
 export const rangeFacts = [
   {
     title: "Naturally fallen leaves",

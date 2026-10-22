@@ -7,6 +7,7 @@ import { CtaBand } from "@/components/CtaBand";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProductRange } from "@/components/ProductRange";
+import { RangeOverview } from "@/components/RangeOverview";
 import { faqByCategory } from "@/lib/faq";
 import { categories, getCategory, productHref, productsIn, rangeFacts } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
@@ -128,21 +129,17 @@ export default async function CategoryPage(props: PageProps<"/products/[category
         title={category.name}
         crumbs={<Breadcrumbs items={crumbs} />}
         actions={
-          <>
-            <Link href="/contact" className="rounded-full bg-forest px-6 py-3 font-medium text-white transition-colors hover:bg-forest-600">
-              Request a quote
-            </Link>
-            <a
-              href={site.catalogPdf}
-              className="rounded-full border border-forest/30 px-6 py-3 font-medium text-forest transition-colors hover:border-forest"
-            >
-              Download catalogue (PDF)
-            </a>
-          </>
+          <Link href="/contact" className="rounded-full bg-forest px-6 py-3 font-medium text-white transition-colors hover:bg-forest-600">
+            Request a quote
+          </Link>
         }
       >
         {category.intro}
       </PageHero>
+
+      <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 md:pt-20">
+        <RangeOverview />
+      </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
         <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">

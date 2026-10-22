@@ -34,10 +34,10 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rootsbay.co",
 
   contact: {
-    // Mobile and email as printed on Rootsbay's Udyam registration certificate (Abhay S Gowda).
-    // PLACEHOLDER — swap for a business mailbox (e.g. connect@rootsbay.co) or a dedicated
-    // sales number once one exists. Changing these four lines updates the whole site.
-    email: "abhaygowda.work@gmail.com",
+    // Email is the company address. The mobile is the one printed on Rootsbay's Udyam registration
+    // certificate (Abhay S Gowda). PLACEHOLDER — swap the mobile for a dedicated sales number if one
+    // exists. Changing these lines updates the whole site.
+    email: "connect@rootsbay.co",
     phone: "+91 98443 64352",
     phoneHref: "tel:+919844364352",
     // WhatsApp click-to-chat. PLACEHOLDER — assumes the mobile above is on WhatsApp; confirm.
@@ -69,8 +69,6 @@ export const site = {
   },
 
   ordering,
-
-  catalogPdf: "/rootsbay-areca-catalog.pdf",
 } as const;
 
 /** Top-level pages, in header order. The footer reads the same list. */

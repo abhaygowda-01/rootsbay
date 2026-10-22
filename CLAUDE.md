@@ -39,7 +39,7 @@ sections, carousels, popups or animations unless asked.
 | Design tokens (colours, fonts) | `app/globals.css` `@theme` |
 | Logo files (cut from signboard photo) | `public/brand/` ; favicon `app/icon.png` |
 | Product images | `public/images/products/NN.webp` (NN = SKU number) |
-| Catalogue PDF | `public/rootsbay-areca-catalog.pdf` |
+| Range overview picture (home + tableware page) | `public/images/range-overview.webp`, `components/RangeOverview.tsx` |
 
 ## Design system (keep consistent)
 - Colours from the signboard: forest `#1e5a3c`, canopy `#133827` (hero/footer), brass `#b8893b` (rules, outlines,
@@ -56,16 +56,17 @@ The README has the full handover table (what to fill, and where). In short:
    Replace with proper photos at ≥1200 px, same filenames.
 3. **Copy to verify**: the "we reply within one working day" promise (form + auto-reply), process steps (soak, sun-dry, inspect,
    export cartons), About text (sourcing, QC, paperwork, shipping), SKU pitch lines (`lib/products.ts`) and buyer Q&A (`lib/faq.ts`)
-   are reasonable defaults, not supplied facts. Catalogue claims (100 °C, microwave 2 min, compostable 60–90 days, 350 ml) come
-   from the supplied PDF.
+   are reasonable defaults, not supplied facts. Specification claims (100 °C, microwave 2 min, compostable 60–90 days, 350 ml) come
+   from the spec sheet Rootsbay supplied. The brochure PDF was removed from the site (its pictures duplicated the product photos).
 4. **Ordering terms** (MOQ, pricing basis, lead time, packing, samples, markets) — none supplied. Fill `ordering` in `lib/site.ts`;
    the panel on `/contact` stays hidden until at least one field has text.
 5. **Certificates** — `/certificates` publishes the GST, IEC and Udyam certificates (PDFs + page-one previews in
    `public/certificates/`). Food-contact test report, compostability certificate, certificate of origin and phytosanitary
    certificate read "Ask us" until the real file is added and its entry in `lib/certificates.ts` is set to `status: "held"`.
    Never mark a document held, or write "FDA approved" / "certified compostable", without the paper.
-6. **Public contact details** (`lib/site.ts` → `contact`) are the mobile and email printed on the Udyam certificate (Abhay S Gowda).
-   WhatsApp is assumed to be that same mobile. Swap for a business mailbox / sales number if one exists.
+6. **Public contact details** (`lib/site.ts` → `contact`): email is `connect@rootsbay.co`; the mobile is the one printed on the Udyam
+   certificate (Abhay S Gowda). WhatsApp is assumed to be that same mobile. The Udyam PDF and preview also print his personal
+   mobile and Gmail; Rootsbay confirmed that is fine to publish.
 7. **"Coming soon" lines** (agriculture, handicrafts) are `noindex` and left out of the sitemap until their `status` in
    `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
 8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.

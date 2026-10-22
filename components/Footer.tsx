@@ -25,11 +25,6 @@ export function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <a href={site.catalogPdf} className="hover:text-white">
-                Product catalogue (PDF)
-              </a>
-            </li>
           </ul>
         </div>
 

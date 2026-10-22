@@ -86,16 +86,15 @@ Everything the site still needs from Rootsbay. Items 1 to 4 matter before launch
 
 | # | What | Where | Today | What to do |
 | --- | --- | --- | --- | --- |
-| 1 | Public email, phone and WhatsApp | `lib/site.ts` → `contact` | Mobile and email printed on the Udyam certificate | Keep, or replace with a business mailbox (for example `connect@rootsbay.co`) and a sales number. WhatsApp is assumed to be the same mobile: confirm. |
+| 1 | Public email, phone and WhatsApp | `lib/site.ts` → `contact` | Email `connect@rootsbay.co`; mobile as printed on the Udyam certificate | Confirm the `connect@rootsbay.co` mailbox exists and is read. Keep the mobile or replace it with a sales number. WhatsApp is assumed to be the same mobile: confirm. |
 | 2 | Where enquiries are emailed | `.env.local` (local) and Vercel settings (live): `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` | API key empty, so nothing is emailed | Sign up at <https://resend.com>, create a key, paste it. See "Make the form send email" below. |
 | 3 | Final website address | `NEXT_PUBLIC_SITE_URL` in `.env.local` and Vercel | `https://www.rootsbay.co` | Confirm the domain. It feeds canonical links and the sitemap. |
 | 4 | Business facts buyers ask for | `lib/site.ts` → `ordering` (minimum order, pricing basis, lead time, packing, samples, markets) | Blank, so the panel is hidden | Fill any of them; an "Ordering at a glance" panel appears on `/contact`. Blank fields stay hidden. |
 | 5 | Social links | `lib/site.ts` → `social` | Blank, so hidden from the footer | Add the LinkedIn and Instagram page URLs. |
 | 6 | Other certificates and test reports | `lib/certificates.ts` and `public/certificates/` | Four rows read "Ask us": food-contact test report, compostability certificate, certificate of origin, phytosanitary certificate | When a document exists, add the PDF and a page-one image, then set its entry to `status: "held"` (steps are at the top of the file). Add any other registration (for example FSSAI or APEDA) as a new entry. Do not write "FDA approved" or "certified compostable" without the paper. |
-| 7 | Product photos 05 to 20 | `public/images/products/05.webp` to `20.webp` | Small crops from the PDF catalogue, soft when enlarged | Replace with real photos at 1200 px or wider, same file names. Photos 01 to 04 are good. |
+| 7 | Product photos 05 to 20, and the range picture | `public/images/products/05.webp` to `20.webp`, `public/images/range-overview.webp` | 05 to 20 are small crops, soft when enlarged. The range picture is an illustration showing more shapes than the 20 listed. | Replace with real photos at 1200 px or wider, same file names. Photos 01 to 04 are good. |
 | 8 | Logo | `public/brand/`, `app/icon.png`, `app/apple-icon.png` | Cut from a photo of the signboard | Replace with the original logo files from the designer, same names. |
-| 9 | Catalogue PDF | `public/rootsbay-areca-catalog.pdf` | Supplied catalogue | Replace the file, keeping the name. Keep sizes and claims in step with `lib/products.ts`. |
-| 10 | Copy to read once for accuracy | `app/how-its-made/page.tsx`, `app/about/page.tsx`, `lib/faq.ts`, the `pitches` list in `lib/products.ts`, "we reply within one working day" in `components/EnquiryForm.tsx` and `lib/notify.ts` | Written from the supplied catalogue and standard process wording | Correct anything that is not how Rootsbay works. |
+| 10 | Copy to read once for accuracy | `app/how-its-made/page.tsx`, `app/about/page.tsx`, `lib/faq.ts`, the `pitches` list in `lib/products.ts`, "we reply within one working day" in `components/EnquiryForm.tsx` and `lib/notify.ts` | Written from Rootsbay's product specification and standard process wording | Correct anything that is not how Rootsbay works. |
 | 11 | Agriculture and handicrafts | `categories` in `lib/products.ts` | Coming soon | When products are ready, set `status: "available"` and add items with that `category`. The page, title bar, sitemap and search visibility all follow. |
 | 12 | Founder name on the site | `lib/site.ts` → `founder`, `legalName`, `tradeName` | Abhay S Gowda, trading as Rootsbay (as on the GST certificate) | Change if the legal structure changes. |
 
@@ -111,6 +110,8 @@ Everything in `lib/site.ts` is shown across the whole site (header, footer, cont
 Prefer a spreadsheet? Set `ENQUIRY_WEBHOOK_URL` to a Google Apps Script web app that appends rows to a Sheet. Email and webhook can run together.
 
 ## Publish it (Vercel)
+
+A preview of the site is already live at <https://rootsbay.vercel.app>. It is hosted under the builder's Vercel account, so to own it, import the GitHub repository into your own Vercel account (steps below), add your domain, and then the preview can be deleted.
 
 1. Put the project in a **private** GitHub repository.
 2. Import it at <https://vercel.com/new>. The framework is detected automatically.
@@ -147,7 +148,7 @@ Developers: this is Next.js 16, which differs from older versions. Read the guid
 
 ## Handing the folder to someone else
 
-- Share it through a private GitHub repository, or zip the folder **without** `node_modules`, `.next`, `.data` and `.env.local`. The new owner runs `npm install` and `Copy-Item .env.example .env.local`.
+- Share it through a private GitHub repository, or zip the folder **without** `node_modules`, `.next`, `.data`, `.vercel` and `.env.local`. The new owner runs `npm install` and `Copy-Item .env.example .env.local`.
 - Never share `.env.local` (it holds the API key). `.env.example` is the safe template.
 - Set your own git name and email before your first commit:
 
