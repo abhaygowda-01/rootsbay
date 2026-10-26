@@ -2,27 +2,43 @@ import Image from "next/image";
 import Link from "next/link";
 import { CategoryCards } from "@/components/CategoryCards";
 import { CtaBand } from "@/components/CtaBand";
-import { RangeOverview } from "@/components/RangeOverview";
-import { categories, products, rangeFacts } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Areca leaf plates exporter from India | Rootsbay",
+  title: "Rootsbay | Agro exporter from India: rice and areca leaf tableware",
   absolute: true,
   description:
-    "Rootsbay exports areca leaf plates, bowls and trays from Karnataka, India: 20 shapes, chemical-free and home compostable. Request a bulk quote.",
+    "Rootsbay is an agro-export company in Bengaluru, India. We source, check, document and ship rice and areca leaf tableware for importers and distributors worldwide.",
   path: "/",
 });
 
+// The home page says what the company does. Product specifications live on the product pages.
+const steps = [
+  {
+    title: "Source",
+    body: "We find good products at the source, with farmers and producers in Karnataka and across India.",
+  },
+  {
+    title: "Check",
+    body: "Every order is checked against the specification you agreed before it is packed.",
+  },
+  {
+    title: "Document",
+    body: "We prepare the export paperwork your shipment needs, and the registrations importers ask for.",
+  },
+  {
+    title: "Ship",
+    body: "Orders are packed for export and shipped to your port. Tell us the destination and we'll quote the options.",
+  },
+];
+
 const explore = [
-  { href: "/how-its-made", title: "How it's made", body: "Four steps from a fallen palm leaf to a finished plate." },
-  { href: "/certificates", title: "Certificates", body: "Our registrations, and the documents importers ask for." },
   { href: "/about", title: "About Rootsbay", body: "An agro-export house from Bengaluru, built around Karnataka's farms." },
+  { href: "/certificates", title: "Certificates", body: "Our registrations, and the documents importers ask for." },
+  { href: "/contact", title: "Contact", body: "Email, phone or WhatsApp. Tell us what you need and where it is going." },
 ];
 
 export default function Home() {
-  const live = categories.find((c) => c.status === "available")!;
-
   return (
     <>
       {/* Hero */}
@@ -30,83 +46,98 @@ export default function Home() {
         <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-14 pb-16 sm:px-6 md:grid-cols-[1.05fr_1fr] md:pt-20 md:pb-24">
           <div>
             <h1 className="rise text-[2.5rem] leading-[1.04] font-semibold tracking-[-0.025em] sm:text-6xl">
-              Areca leaf plates, pressed from fallen palm leaves and exported worldwide.
+              From India&apos;s farms to buyers around the world.
             </h1>
             <p className="rise rise-1 mt-6 max-w-[34rem] text-lg leading-relaxed text-white/75">
-              Rootsbay exports areca leaf plates, bowls and trays from Karnataka, India — {products.length} shapes from 4 to 11
-              inches, chemical-free and home compostable. Packed for importers, distributors and caterers.
+              Rootsbay is an agro-export company in Bengaluru. We source products from Karnataka and across India, check every
+              order, prepare the export paperwork and ship to importers, distributors and caterers abroad.
             </p>
             <div className="rise rise-2 mt-9 flex flex-wrap gap-3">
               <Link href="/contact" className="rounded-full bg-white px-6 py-3 font-medium text-canopy transition-colors hover:bg-sheath">
                 Request a quote
               </Link>
               <Link
-                href={`/products/${live.id}`}
+                href="/products"
                 className="rounded-full border border-white/30 px-6 py-3 font-medium text-white transition-colors hover:border-white/70"
               >
-                Explore the range
+                See our products
               </Link>
             </div>
           </div>
 
           <figure className="rise rise-3">
-            <div className="relative aspect-square overflow-hidden rounded-xl">
-              <Image
-                src="/images/products/02.webp"
-                alt="Square areca leaf tray holding hummus and pita bread"
-                fill
-                priority
-                sizes="(min-width: 768px) 520px, 92vw"
-                className="object-cover"
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+                <Image
+                  src="/images/rice/rajamudi.webp"
+                  alt="A bowl of Rajamudi red rice"
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 260px, 46vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
+                <Image
+                  src="/images/products/02.webp"
+                  alt="Square areca leaf tray holding hummus and pita bread"
+                  fill
+                  priority
+                  sizes="(min-width: 768px) 260px, 46vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
             <figcaption className="dim mt-4 text-sm">
-              <span className="text-brass-300">6″ × 6″ square tray</span>
+              <span className="text-brass-300">Rice and areca leaf tableware</span>
             </figcaption>
           </figure>
         </div>
       </section>
 
-      {/* Product lines */}
+      {/* What we do */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-        <h2 className="max-w-2xl text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
-          What Rootsbay exports
-        </h2>
-        <p className="mt-4 max-w-[38rem] text-lg leading-relaxed text-muted">
-          Biodegradable tableware is available now. Agriculture and handicrafts are in preparation, and each has its own page.
-        </p>
+        <div className="grid gap-12 md:grid-cols-2">
+          <div>
+            <h2 className="text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">What Rootsbay does</h2>
+            <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
+              We are one supplier from farm to port. Rootsbay handles every step of an export order, so you deal with one
+              accountable company instead of a chain of agents and traders.
+            </p>
+            <p className="mt-4 max-w-[34rem] text-lg leading-relaxed text-muted">
+              We supply importers, distributors, wholesalers, retailers and caterers in markets abroad.
+            </p>
+          </div>
 
-        <div className="mt-12">
-          <CategoryCards />
+          <ol className="grid content-start gap-x-8 gap-y-10 sm:grid-cols-2 md:pt-3">
+            {steps.map((s, i) => (
+              <li key={s.title} className="border-t-2 border-brass pt-4">
+                <h3 className="font-display text-xl font-semibold text-ink">
+                  <span className="text-brass" aria-hidden="true">
+                    {i + 1}{" "}
+                  </span>
+                  {s.title}
+                </h3>
+                <p className="mt-2 leading-relaxed text-muted">{s.body}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
-      {/* Why areca leaf */}
+      {/* Product lines */}
       <section className="bg-sheath-50">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-          <div className="grid gap-12 md:grid-cols-2">
-            <div>
-              <h2 className="text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
-                Why caterers and retailers choose areca leaf
-              </h2>
-              <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
-                Areca leaf plates look natural because they are. Each one is a single leaf sheath, heat-pressed into shape, so your
-                customers get a plate with no liner, glue or coating to ask about — and a story that is easy to tell.
-              </p>
-            </div>
+          <h2 className="max-w-2xl text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
+            What Rootsbay exports
+          </h2>
+          <p className="mt-4 max-w-[38rem] text-lg leading-relaxed text-muted">
+            Rice and biodegradable tableware are available now, and handicrafts are in preparation. Each line has its own page
+            with the full range.
+          </p>
 
-            <dl className="grid content-start gap-x-8 gap-y-10 sm:grid-cols-2 md:pt-3">
-              {rangeFacts.map((f) => (
-                <div key={f.title} className="border-t-2 border-brass pt-4">
-                  <dt className="font-display text-xl font-semibold text-ink">{f.title}</dt>
-                  <dd className="mt-2 leading-relaxed text-muted">{f.body}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-16">
-            <RangeOverview />
+          <div className="mt-12">
+            <CategoryCards />
           </div>
         </div>
       </section>

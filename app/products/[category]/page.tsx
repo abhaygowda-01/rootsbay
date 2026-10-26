@@ -9,7 +9,7 @@ import { PageHero } from "@/components/PageHero";
 import { ProductRange } from "@/components/ProductRange";
 import { RangeOverview } from "@/components/RangeOverview";
 import { faqByCategory } from "@/lib/faq";
-import { categories, getCategory, productHref, productsIn, rangeFacts } from "@/lib/products";
+import { categories, getCategory, productHref, productsIn } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -104,6 +104,7 @@ export default async function CategoryPage(props: PageProps<"/products/[category
 
   const items = productsIn(category.id);
   const faqs = faqByCategory[category.id] ?? [];
+  const range = category.range;
 
   const collectionJsonLd = {
     "@context": "https://schema.org",
@@ -129,7 +130,10 @@ export default async function CategoryPage(props: PageProps<"/products/[category
         title={category.name}
         crumbs={<Breadcrumbs items={crumbs} />}
         actions={
-          <Link href="/contact" className="rounded-full bg-forest px-6 py-3 font-medium text-white transition-colors hover:bg-forest-600">
+          <Link
+            href={`/contact?topic=${category.id}`}
+            className="rounded-full bg-forest px-6 py-3 font-medium text-white transition-colors hover:bg-forest-600"
+          >
             Request a quote
           </Link>
         }
@@ -137,43 +141,42 @@ export default async function CategoryPage(props: PageProps<"/products/[category
         {category.intro}
       </PageHero>
 
-      <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 md:pt-20">
-        <RangeOverview />
-      </section>
+      {items[0]?.kind === "tableware" && (
+        <section className="mx-auto max-w-6xl px-4 pt-16 sm:px-6 md:pt-20">
+          <RangeOverview />
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
         <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">
-          {items.length} shapes, one material
+          {items.length} {range?.heading}
         </h2>
-        <p className="mt-4 max-w-[40rem] text-lg leading-relaxed text-muted">
-          Every piece is the same areca leaf — choose by size and shape. The brass outline beside each product is drawn to scale
-          inside a 12-inch square, so you can compare sizes at a glance.
-        </p>
+        {range && <p className="mt-4 max-w-[40rem] text-lg leading-relaxed text-muted">{range.intro}</p>}
         <div className="mt-10">
           <ProductRange items={items} />
         </div>
       </section>
 
-      <section className="border-t border-line bg-sheath-50">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
-          <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">
-            What every piece has in common
-          </h2>
-          <dl className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {rangeFacts.map((f) => (
-              <div key={f.title} className="border-t-2 border-brass pt-4">
-                <dt className="font-display text-xl font-semibold text-ink">{f.title}</dt>
-                <dd className="mt-2 leading-relaxed text-muted">{f.body}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
+      {range && (
+        <section className="border-t border-line bg-sheath-50">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+            <h2 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">{range.factsHeading}</h2>
+            <dl className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {range.facts.map((f) => (
+                <div key={f.title} className="border-t-2 border-brass pt-4">
+                  <dt className="font-display text-xl font-semibold text-ink">{f.title}</dt>
+                  <dd className="mt-2 leading-relaxed text-muted">{f.body}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      )}
 
       {faqs.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
           <h2 className="max-w-2xl text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">
-            Questions buyers ask about areca leaf plates
+            {range?.faqHeading}
           </h2>
           <div className="mt-12 grid gap-x-14 gap-y-10 md:grid-cols-2">
             {faqs.map((f) => (

@@ -1,19 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { matchesFilter, shapeFilters, type Product } from "@/lib/products";
+import { filtersFor, matchesFilter, type FilterId, type Product } from "@/lib/products";
 import { ProductCard } from "./ProductCard";
 
-type FilterId = (typeof shapeFilters)[number]["id"];
-
+/** Filter chips (shapes for tableware, white/red for rice) above the product grid. */
 export function ProductRange({ items }: { items: Product[] }) {
   const [filter, setFilter] = useState<FilterId>("all");
+  const filters = filtersFor(items[0]?.kind ?? "tableware");
   const shown = items.filter((p) => matchesFilter(p, filter));
 
   return (
     <div>
-      <div role="group" aria-label="Filter by shape" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
-        {shapeFilters.map((f) => {
+      <div role="group" aria-label="Filter the range" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+        {filters.map((f) => {
           const count = items.filter((p) => matchesFilter(p, f.id)).length;
           const active = f.id === filter;
           return (

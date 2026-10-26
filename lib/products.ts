@@ -1,26 +1,22 @@
+import { rice, riceFacts } from "./rice";
+
 /**
  * Product list.
  *
- * Source: Rootsbay's "Areca Leaf Eco-Tableware" specification (20 options).
+ * Tableware source: Rootsbay's "Areca Leaf Eco-Tableware" specification (20 options).
  * Descriptions and claims come from it — keep them in sync if the specification
- * changes. Add new agro product lines by adding a category to `categories`
- * and items with that `category` id.
+ * changes. Rice lives in `lib/rice.ts`. Add new agro product lines by adding a
+ * category to `categories` and items with that `category` id.
  */
 
 export type Shape = "round" | "square" | "rectangle" | "oval";
 export type Form = "plate" | "bowl" | "tray";
 
-export type Product = {
+type BaseProduct = {
   slug: string;
-  code: string; // internal SKU-style code used in enquiries
+  code: string; // internal reference code used in enquiries — never shown on the site
   category: CategoryId;
   name: string;
-  shape: Shape;
-  form: Form;
-  /** Outer dimensions in inches. For round items width = height = diameter. */
-  size: { width: number; height: number; depth?: number };
-  sizeLabel: string;
-  profile: string;
   bestFor: string;
   summary: string;
   description: string;
@@ -31,6 +27,28 @@ export type Product = {
   /** true = full-size product photograph; false = small crop from a collage image (soft when enlarged) */
   photo: boolean;
 };
+
+export type TablewareProduct = BaseProduct & {
+  kind: "tableware";
+  shape: Shape;
+  form: Form;
+  /** Outer dimensions in inches. For round items width = height = diameter. */
+  size: { width: number; height: number; depth?: number };
+  sizeLabel: string;
+  profile: string;
+};
+
+export type RiceProduct = BaseProduct & {
+  kind: "rice";
+  /** Variety name on its own, e.g. `Sona Masuri`, for chips and lists. */
+  variety: string;
+  colour: "white" | "red";
+  grain?: string;
+  /** Only where the origin is part of the variety (Gangavathi Sona) or well established. */
+  origin?: string;
+};
+
+export type Product = TablewareProduct | RiceProduct;
 
 export type CategoryId = "biodegradable-tableware" | "agriculture" | "handicrafts";
 
@@ -47,35 +65,80 @@ export type Category = {
   seoDescription: string;
   /** Real photo for cards; categories without one are drawn as type-only cards. */
   image?: { src: string; alt: string };
+  /** Section copy for an available line's page. `heading` follows the item count: "20 shapes, one material". */
+  range?: {
+    heading: string;
+    intro: string;
+    factsHeading: string;
+    facts: readonly { title: string; body: string }[];
+    faqHeading: string;
+  };
 };
+
+/** Facts shared by the whole areca range, as stated in Rootsbay's specification. */
+export const rangeFacts = [
+  {
+    title: "Naturally fallen leaves",
+    body: "Made from areca palm leaf sheaths that drop from the tree on their own. No tree is cut.",
+  },
+  {
+    title: "Nothing added",
+    body: "Heat-pressed from the leaf alone. Non-toxic and chemical-free, with no coating or glue.",
+  },
+  {
+    title: "Holds hot food",
+    body: "Heat resistant up to 100 °C, leak-resistant with light sauces, and microwavable for short reheats.",
+  },
+  {
+    title: "Back to the soil",
+    body: "Home compostable within 60–90 days after use.",
+  },
+] as const;
 
 /**
  * Product lines. Order = order in the products bar and on the hub page.
- * To open a new line: set `status: "available"` and add products with that `category`.
+ * To open a new line: set `status: "available"`, fill `range` and add products with that `category`.
  */
 export const categories: Category[] = [
   {
     id: "biodegradable-tableware",
     name: "Biodegradable tableware",
     status: "available",
-    blurb: "Areca leaf plates, bowls and trays — 20 shapes from 4 to 11 inches, home compostable.",
+    blurb: "Plates, bowls and trays pressed from fallen areca palm leaves.",
     intro:
       "Biodegradable tableware from Rootsbay is made from areca palm leaf sheaths that fall naturally in Karnataka, India. Each sheath is washed, dried and heat-pressed into a plate, bowl or tray with nothing added — no glue, wax or coating. Choose from 20 shapes between 4 and 11 inches, packed for importers, distributors and caterers.",
     seoTitle: "Biodegradable areca leaf plates, bowls and trays",
     seoDescription:
       "Areca leaf plates, bowls and trays exported from India: 20 shapes from 4 to 11 inches, heat resistant to 100 °C, home compostable. Request bulk pricing.",
     image: { src: "/images/products/03.webp", alt: "Round areca leaf plate holding a quinoa salad with grilled chicken" },
+    range: {
+      heading: "shapes, one material",
+      intro:
+        "Every piece is the same areca leaf — choose by size and shape. The brass outline beside each product is drawn to scale inside a 12-inch square, so you can compare sizes at a glance.",
+      factsHeading: "What every piece has in common",
+      facts: rangeFacts,
+      faqHeading: "Questions buyers ask about areca leaf plates",
+    },
   },
   {
     id: "agriculture",
     name: "Agriculture",
-    status: "coming-soon",
-    blurb: "Farm produce from Karnataka, prepared for export. Coming soon.",
+    status: "available",
+    blurb: "Rice from Karnataka and across India: Sona Masuri, Basmati, heritage red rice and more.",
     intro:
-      "Rootsbay was set up to carry agricultural products from Karnataka's farms to buyers abroad. Our agriculture range is being prepared and will appear on this page when it is ready for export orders.",
-    seoTitle: "Agriculture products from India, coming soon",
+      "Rootsbay's agriculture line starts with rice. We export white rice such as Sona Masuri, Gangavathi Sona and IR-20, aromatic Basmati, and red rice including Karnataka's heritage Rajamudi and Kempu Akki. Every variety is sold under its own name and packed for importers, wholesalers and distributors.",
+    seoTitle: "Indian rice exporter: Sona Masuri, Basmati and red rice",
     seoDescription:
-      "Rootsbay's agriculture range from Karnataka, India is coming soon. Tell us what you want to import and we will get back to you.",
+      "Rootsbay exports rice from India: Sona Masuri, Gangavathi Sona, Basmati, IR-20, and Rajamudi and Kempu Akki red rice. Request bulk pricing.",
+    image: { src: "/images/rice/rice-range.webp", alt: "Bowls of Basmati and Sona Masuri rice on a wooden table" },
+    range: {
+      heading: "varieties of rice",
+      intro:
+        "Choose by grain and colour: everyday white rice, aromatic Basmati, or Karnataka's traditional red rice. Each variety has its own page with its grain and typical uses.",
+      factsHeading: "With every rice order",
+      facts: riceFacts,
+      faqHeading: "Questions buyers ask about Indian rice",
+    },
   },
   {
     id: "handicrafts",
@@ -102,7 +165,9 @@ export function productHref(p: Pick<Product, "category" | "slug">) {
   return `/products/${p.category}/${p.slug}`;
 }
 
-export const shapeFilters: { id: "all" | Shape | "bowl"; label: string }[] = [
+export type FilterId = "all" | Shape | "bowl" | RiceProduct["colour"];
+
+export const shapeFilters: { id: FilterId; label: string }[] = [
   { id: "all", label: "All shapes" },
   { id: "round", label: "Round plates" },
   { id: "square", label: "Square plates" },
@@ -110,9 +175,19 @@ export const shapeFilters: { id: "all" | Shape | "bowl"; label: string }[] = [
   { id: "bowl", label: "Bowls" },
 ];
 
+export const riceFilters: { id: FilterId; label: string }[] = [
+  { id: "all", label: "All rice" },
+  { id: "white", label: "White rice" },
+  { id: "red", label: "Red rice" },
+];
+
+export function filtersFor(kind: Product["kind"]) {
+  return kind === "rice" ? riceFilters : shapeFilters;
+}
+
 const C = "biodegradable-tableware";
 
-const catalogue: Omit<Product, "pitch">[] = [
+const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
   {
     slug: "4-inch-round-dessert-plate",
     code: "RB-AL-01",
@@ -519,10 +594,13 @@ const pitches: Record<string, string> = {
     "The flagship for sharing. Hummus, dips, pita and small plates sit together on the largest round in the range — the centrepiece of a meze or tapas table.",
 };
 
-export const products: Product[] = catalogue.map((p) => ({ ...p, pitch: pitches[p.code] }));
+const tableware: TablewareProduct[] = catalogue.map((p) => ({ ...p, kind: "tableware", pitch: pitches[p.code] }));
 
-/** Compact label for chips and lists, e.g. `9″ deep rim plate`. */
+export const products: Product[] = [...tableware, ...rice];
+
+/** Compact label for chips and lists, e.g. `9″ deep rim plate` or `Sona Masuri`. */
 export function shortName(p: Product) {
+  if (p.kind === "rice") return p.variety;
   const special: Record<string, string> = {
     "RB-AL-06": '9" deep rim plate',
     "RB-AL-12": '9" burger plate',
@@ -541,12 +619,25 @@ export function getProduct(slug: string) {
   return products.find((p) => p.slug === slug);
 }
 
+/** The line under a product's name: size for tableware, rice type and grain for rice. */
+export function detailLabel(p: Product) {
+  if (p.kind === "tableware") return p.sizeLabel;
+  const type = p.colour === "red" ? "Red rice" : "White rice";
+  return p.grain ? `${type}, ${p.grain.toLowerCase()}` : type;
+}
+
+export function imageAlt(p: Product) {
+  return p.kind === "rice" ? `Uncooked ${p.name}` : `${p.name} in use`;
+}
+
 /**
  * Page title in the words buyers search with, plus the first use case so no two titles match
  * (RB-AL-06 and RB-AL-12 are both 9-inch round plates), e.g. `10-inch square areca leaf plate for buffets`.
  * Trays and boats keep their shape word: `9 × 6-inch rectangular areca leaf tray for sushi`.
+ * Rice: `Sona Masuri rice for export from India`.
  */
 export function seoTitle(p: Product) {
+  if (p.kind === "rice") return `${p.name} for export from India`;
   const { width: w, height: h } = p.size;
   const dims = p.shape === "rectangle" || p.shape === "oval" ? `${w} × ${h}-inch` : `${w}-inch`;
   const shape = p.shape === "rectangle" ? "rectangular" : p.shape;
@@ -554,30 +645,11 @@ export function seoTitle(p: Product) {
   return `${dims} ${shape} areca leaf ${p.form} for ${use}`;
 }
 
-export function matchesFilter(p: Product, filter: (typeof shapeFilters)[number]["id"]) {
+export function matchesFilter(p: Product, filter: FilterId) {
   if (filter === "all") return true;
+  if (p.kind === "rice") return p.colour === filter;
   if (filter === "bowl") return p.form === "bowl";
   if (p.form === "bowl") return false;
   if (filter === "rectangle") return p.shape === "rectangle" || p.shape === "oval";
   return p.shape === filter;
 }
-
-/** Facts shared by the whole areca range, as stated in Rootsbay's specification. */
-export const rangeFacts = [
-  {
-    title: "Naturally fallen leaves",
-    body: "Made from areca palm leaf sheaths that drop from the tree on their own. No tree is cut.",
-  },
-  {
-    title: "Nothing added",
-    body: "Heat-pressed from the leaf alone. Non-toxic and chemical-free, with no coating or glue.",
-  },
-  {
-    title: "Holds hot food",
-    body: "Heat resistant up to 100 °C, leak-resistant with light sauces, and microwavable for short reheats.",
-  },
-  {
-    title: "Back to the soil",
-    body: "Home compostable within 60–90 days after use.",
-  },
-] as const;

@@ -3,7 +3,7 @@ import Link from "next/link";
 /** Closing call to action shared by the inner pages. */
 export function CtaBand({
   title = "Ready to talk quantities?",
-  body = "Tell us the shapes, quantity and destination. We'll send pricing, minimum order, samples and shipping options.",
+  body = "Tell us the products, quantity and destination. We'll send pricing, minimum order, samples and shipping options.",
   primary = { href: "/contact", label: "Request a quote" },
   secondary = { href: "/certificates", label: "See our certificates" },
 }: {

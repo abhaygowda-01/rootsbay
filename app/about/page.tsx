@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 export const metadata = pageMeta({
   title: "About us: agro exporter in Bengaluru, India",
   description:
-    "Rootsbay is an agro-export company in Vijayanagar, Bengaluru. We source from Karnataka's farms, inspect, document and ship, starting with areca leaf tableware.",
+    "Rootsbay is an agro-export company in Vijayanagar, Bengaluru. We source from Karnataka's farms, inspect, document and ship rice and areca leaf tableware.",
   path: "/about",
   image: { url: "/images/products/04.webp", width: 1264, height: 848, alt: "Rectangular areca leaf tray with sushi rolls" },
 });
@@ -45,8 +45,9 @@ export default function AboutPage() {
               country to be able to order from a farm region they have never visited and receive exactly what they saw on the page.
             </p>
             <p>
-              Our first product line is areca leaf tableware: 20 plates, bowls and trays that we can describe, photograph and
-              measure precisely. Agriculture and handicraft lines are being prepared next.
+              Today we export two product lines: areca leaf tableware, 20 plates, bowls and trays that we can describe and
+              measure precisely, and rice, from everyday Sona Masuri to Karnataka&apos;s heritage red rice. A handicraft line is
+              being prepared next.
             </p>
           </div>
         </div>

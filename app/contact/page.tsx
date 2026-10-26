@@ -6,9 +6,9 @@ import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata = pageMeta({
-  title: "Request a quote for areca leaf plates",
+  title: "Request a quote for rice or areca leaf tableware",
   description:
-    "Send Rootsbay your shapes, quantity and destination. We reply with pricing, minimum order, samples and shipping options for areca leaf plates, bowls and trays.",
+    "Send Rootsbay the products, quantity and destination. We reply with pricing, minimum order, samples and shipping options for rice and areca leaf tableware.",
   path: "/contact",
 });
 
@@ -16,7 +16,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHero title="Request a quote" crumbs={<Breadcrumbs items={[{ name: "Contact", path: "/contact" }]} />}>
-        Tell us the shapes, quantity and destination. We&apos;ll send pricing, minimum order, samples and shipping options.
+        Tell us the products, quantity and destination. We&apos;ll send pricing, minimum order, samples and shipping options.
       </PageHero>
 
       <section className="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[0.8fr_1.2fr] md:py-24">
@@ -65,8 +65,8 @@ export default function ContactPage() {
 
           <h2 className="mt-12 text-2xl font-semibold tracking-[-0.01em] text-forest">What to include</h2>
           <ul className="mt-4 space-y-2 leading-relaxed text-muted">
-            <li>The shapes you want. Product names help, but you can describe them too.</li>
-            <li>Roughly how many pieces, or whether you want samples first.</li>
+            <li>The products you want: shapes for tableware, varieties for rice. Names help, but you can describe them too.</li>
+            <li>Roughly how much you need, or whether you want samples first.</li>
             <li>The country or port you are shipping to.</li>
             <li>Any custom size, packaging or branding you need.</li>
           </ul>

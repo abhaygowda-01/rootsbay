@@ -1,4 +1,4 @@
-import type { Product } from "@/lib/products";
+import type { TablewareProduct } from "@/lib/products";
 
 /**
  * Draws a product's outline at true relative scale inside a 12-inch frame,
@@ -9,7 +9,7 @@ export function ShapeOutline({
   className = "",
   frame = 12,
 }: {
-  product: Pick<Product, "shape" | "form" | "size">;
+  product: Pick<TablewareProduct, "shape" | "form" | "size">;
   className?: string;
   frame?: number;
 }) {

@@ -30,7 +30,7 @@ export const site = {
   founder: { name: "Abhay S Gowda", role: "Founder" },
   tagline: "Beyond Borders",
   description:
-    "Rootsbay is an agro-export company in Bengaluru, India, supplying areca palm leaf plates, bowls and trays to importers, distributors and caterers worldwide.",
+    "Rootsbay is an agro-export company in Bengaluru, India, supplying rice and areca leaf tableware to importers, distributors and caterers worldwide.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rootsbay.co",
 
   contact: {
@@ -42,7 +42,7 @@ export const site = {
     phoneHref: "tel:+919844364352",
     // WhatsApp click-to-chat. PLACEHOLDER — assumes the mobile above is on WhatsApp; confirm.
     whatsappHref:
-      "https://wa.me/919844364352?text=" + encodeURIComponent("Hello Rootsbay, I'd like a quote for areca leaf tableware."),
+      "https://wa.me/919844364352?text=" + encodeURIComponent("Hello Rootsbay, I'd like a quote."),
   },
 
   address: {

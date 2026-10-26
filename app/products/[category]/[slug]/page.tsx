@@ -6,7 +6,17 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductCard } from "@/components/ProductCard";
 import { ShapeOutline } from "@/components/ShapeOutline";
-import { getCategory, getProduct, productHref, products, rangeFacts, seoTitle, shortName } from "@/lib/products";
+import {
+  detailLabel,
+  getCategory,
+  getProduct,
+  imageAlt,
+  productHref,
+  products,
+  seoTitle,
+  shortName,
+  type Product,
+} from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -23,15 +33,46 @@ function find(categoryId: string, slug: string) {
   return p && p.category === categoryId ? p : undefined;
 }
 
+function specsFor(p: Product): [string, string][] {
+  if (p.kind === "tableware") {
+    return [
+      ["Size", p.sizeLabel],
+      ["Shape", p.profile],
+      ["Best for", p.bestFor],
+      ["Material", "Areca palm leaf sheath, nothing added"],
+    ];
+  }
+  const rows: [string, string][] = [["Rice type", p.colour === "red" ? "Red rice" : "White rice"]];
+  if (p.grain) rows.push(["Grain", p.grain]);
+  if (p.origin) rows.push(["Origin", p.origin]);
+  rows.push(["Best for", p.bestFor]);
+  return rows;
+}
+
+/** Similar items: same shape or form for tableware, same colour for rice. */
+function relatedTo(p: Product) {
+  return products
+    .filter((x) => x.slug !== p.slug && x.kind === p.kind)
+    .filter((x) =>
+      x.kind === "rice" && p.kind === "rice"
+        ? x.colour === p.colour
+        : x.kind === "tableware" && p.kind === "tableware" && (x.shape === p.shape || x.form === p.form),
+    )
+    .slice(0, 3);
+}
+
 export async function generateMetadata(props: PageProps<"/products/[category]/[slug]">): Promise<Metadata> {
   const { category, slug } = await props.params;
   const p = find(category, slug);
   if (!p) return {};
   return pageMeta({
     title: seoTitle(p),
-    description: `${p.summary} Areca leaf, chemical-free and home compostable. Bulk export from India.`,
+    description:
+      p.kind === "tableware"
+        ? `${p.summary} Areca leaf, chemical-free and home compostable. Bulk export from India.`
+        : `${p.summary} Bulk export from India by Rootsbay.`,
     path: productHref(p),
-    image: { url: p.image, alt: `${p.name} in use` },
+    image: { url: p.image, alt: imageAlt(p) },
   });
 }
 
@@ -41,16 +82,9 @@ export default async function ProductPage(props: PageProps<"/products/[category]
   const category = getCategory(categoryId);
   if (!p || !category) notFound();
 
-  const related = products
-    .filter((x) => x.slug !== p.slug && (x.shape === p.shape || x.form === p.form))
-    .slice(0, 3);
-
-  const specs: [string, string][] = [
-    ["Size", p.sizeLabel],
-    ["Shape", p.profile],
-    ["Best for", p.bestFor],
-    ["Material", "Areca palm leaf sheath, nothing added"],
-  ];
+  const related = relatedTo(p);
+  const specs = specsFor(p);
+  const range = category.range;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -61,7 +95,7 @@ export default async function ProductPage(props: PageProps<"/products/[category]
     category: category.name,
     description: `${p.description} ${p.pitch}`,
     image: `${site.url}${p.image}`,
-    material: "Areca palm leaf",
+    ...(p.kind === "tableware" ? { material: "Areca palm leaf" } : {}),
     brand: { "@type": "Brand", name: site.name },
     manufacturer: { "@type": "Organization", name: site.name, url: site.url },
   };
@@ -79,10 +113,10 @@ export default async function ProductPage(props: PageProps<"/products/[category]
       <div className="mt-8 grid gap-10 md:grid-cols-[1.15fr_1fr] md:gap-14">
         <figure>
           <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-sheath">
-            <Image src={p.image} alt={`${p.name} in use`} fill priority sizes="(min-width: 768px) 620px, 92vw" className="object-cover" />
+            <Image src={p.image} alt={imageAlt(p)} fill priority sizes="(min-width: 768px) 620px, 92vw" className="object-cover" />
           </div>
           <figcaption className="dim mt-4 text-sm">
-            <span>{p.sizeLabel}</span>
+            <span>{detailLabel(p)}</span>
           </figcaption>
         </figure>
 
@@ -108,10 +142,12 @@ export default async function ProductPage(props: PageProps<"/products/[category]
                 </div>
               ))}
             </dl>
-            <figure className="hidden w-24 shrink-0 text-center sm:block">
-              <ShapeOutline product={p} className="w-24 text-brass" />
-              <figcaption className="mt-1 text-xs text-muted">To scale in a 12″ square</figcaption>
-            </figure>
+            {p.kind === "tableware" && (
+              <figure className="hidden w-24 shrink-0 text-center sm:block">
+                <ShapeOutline product={p} className="w-24 text-brass" />
+                <figcaption className="mt-1 text-xs text-muted">To scale in a 12″ square</figcaption>
+              </figure>
+            )}
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -133,28 +169,32 @@ export default async function ProductPage(props: PageProps<"/products/[category]
         </div>
       </div>
 
-      <section className="mt-20 border-t border-line pt-12">
-        <h2 className="text-2xl font-semibold text-forest">Every piece in the range</h2>
-        <ul className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
-          {rangeFacts.map((f) => (
-            <li key={f.title}>
-              <h3 className="font-sans font-semibold text-ink">{f.title}</h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted">{f.body}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-8 text-muted">
-          Want to know how it is made?{" "}
-          <Link href="/how-its-made" className="font-medium text-forest underline underline-offset-4">
-            See the four steps
-          </Link>
-          .
-        </p>
-      </section>
+      {range && (
+        <section className="mt-20 border-t border-line pt-12">
+          <h2 className="text-2xl font-semibold text-forest">{range.factsHeading}</h2>
+          <ul className="mt-6 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
+            {range.facts.map((f) => (
+              <li key={f.title}>
+                <h3 className="font-sans font-semibold text-ink">{f.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-muted">{f.body}</p>
+              </li>
+            ))}
+          </ul>
+          {p.kind === "tableware" && (
+            <p className="mt-8 text-muted">
+              Want to know how it is made?{" "}
+              <Link href="/how-its-made" className="font-medium text-forest underline underline-offset-4">
+                See the four steps
+              </Link>
+              .
+            </p>
+          )}
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="mt-16">
-          <h2 className="text-2xl font-semibold text-forest">Similar shapes</h2>
+          <h2 className="text-2xl font-semibold text-forest">{p.kind === "rice" ? "Similar rice" : "Similar shapes"}</h2>
           <ul className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((r) => (
               <li key={r.slug}>

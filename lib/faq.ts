@@ -4,7 +4,8 @@ export type Faq = { q: string; a: string };
 
 /**
  * Buyer questions, answered first-sentence-first so each answer stands alone.
- * Every figure comes from Rootsbay's product specification (see lib/products.ts) — keep them in sync.
+ * Tableware figures come from Rootsbay's product specification (see lib/products.ts) — keep them in sync.
+ * Rice answers are general and carry no figures; Rootsbay should confirm them (see lib/rice.ts).
  * Shown on the category page. Do not mark these up as FAQPage schema: Google no longer
  * shows FAQ rich results for commercial sites, so the visible text is all that matters.
  */
@@ -33,6 +34,32 @@ export const faqByCategory: Partial<Record<CategoryId, Faq[]>> = {
     {
       q: "How do I order areca leaf plates in bulk?",
       a: "Send an enquiry with the shapes you want, an approximate quantity and your destination. Rootsbay replies with pricing, minimum order, samples and shipping options, usually within one working day. You can also email us or message us on WhatsApp; the contact page has both.",
+    },
+  ],
+  agriculture: [
+    {
+      q: "Which rice varieties does Rootsbay export?",
+      a: "Rootsbay exports white rice — Sona Masuri, Gangavathi Sona, Rasi, IR-20, Jaya and Pragathi — along with aromatic Basmati and three red rices: Jyothi, Rajamudi and Kempu Akki. Each variety has its own page with its grain and typical uses.",
+    },
+    {
+      q: "What is the difference between Sona Masuri and Gangavathi Sona?",
+      a: "They are the same lightweight, medium-slender rice. Gangavathi Sona is Sona Masuri grown around Gangavathi in Karnataka's Koppal district, and buyers choose it as a premium grade with a named origin.",
+    },
+    {
+      q: "What is red rice?",
+      a: "Red rice keeps a red bran layer on the outside of the grain, which gives it its colour and a firmer bite than white rice. Rajamudi is a heritage red rice from the old Mysore region, and Kempu Akki is the Kannada name for Karnataka's traditional red rice.",
+    },
+    {
+      q: "Do you export Basmati rice?",
+      a: "Yes. Rootsbay supplies Basmati, India's aromatic long-grain rice, alongside the South Indian varieties. Tell us the grade and grain length you need when you ask for a quote.",
+    },
+    {
+      q: "What details come with a rice quote?",
+      a: "Each quote states the variety, grain length, moisture, broken percentage, crop year, packing and price basis. Ask for a sample if you want to check the rice before you order.",
+    },
+    {
+      q: "How do I order rice in bulk?",
+      a: "Send an enquiry with the varieties you want, an approximate quantity and your destination port. Rootsbay replies with pricing, minimum order, samples and shipping options, usually within one working day. You can also email us or message us on WhatsApp; the contact page has both.",
     },
   ],
 };

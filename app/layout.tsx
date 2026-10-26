@@ -8,7 +8,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Areca leaf plates exporter from India | Rootsbay",
+    default: "Rootsbay | Agro exporter from India",
     template: "%s | Rootsbay",
   },
   description: site.description,

@@ -3,7 +3,8 @@
 # Rootsbay website — context for Claude Code
 
 Marketing + enquiry site for **Rootsbay** (rootsbay.co), an agro-export company in Vijayanagar, Bengaluru.
-Founder: Abhay S Gowda. First product line: areca palm leaf tableware (20 SKUs, RB-AL-01 … RB-AL-20).
+Founder: Abhay S Gowda. Live lines: areca palm leaf tableware (20 SKUs, RB-AL-01 … RB-AL-20) and, under
+Agriculture, rice (10 varieties, RB-RC-01 … RB-RC-10). The home page is a company overview: no product specifications there.
 Audience: international B2B buyers — importers, distributors, caterers, eco retailers. The site's one job
 is to show the range clearly and turn visitors into quote requests.
 
@@ -23,7 +24,8 @@ sections, carousels, popups or animations unless asked.
 | What | File |
 | --- | --- |
 | Company details (phone, email, address, GSTIN, socials, founder, ordering terms) | `lib/site.ts` |
-| Products, product lines, filters, shared range claims | `lib/products.ts` |
+| Products, product lines, filters, shared range claims | `lib/products.ts` (`Product` = `TablewareProduct` \| `RiceProduct`, split on `kind`) |
+| Rice varieties and "With every rice order" facts | `lib/rice.ts`; pictures in `public/images/rice/` |
 | Form schema (shared client + server) | `lib/enquiry-schema.ts` |
 | Enquiry API | `app/api/enquiry/route.ts` → `lib/notify.ts` (Resend / webhook / dev file) |
 | Rate limiting (in-memory) | `lib/rate-limit.ts` |
@@ -69,8 +71,10 @@ The README has the full handover table (what to fill, and where). In short:
 6. **Public contact details** (`lib/site.ts` → `contact`): email is `connect@rootsbay.co`; the mobile is the one printed on the Udyam
    certificate (Abhay S Gowda). WhatsApp is assumed to be that same mobile. The Udyam PDF and preview also print his personal
    mobile and Gmail; Rootsbay confirmed that is fine to publish.
-7. **"Coming soon" lines** (agriculture, handicrafts) are `noindex` and left out of the sitemap until their `status` in
+7. **"Coming soon" lines** (handicrafts) are `noindex` and left out of the sitemap until their `status` in
    `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
+   **Rice** (agriculture): descriptions are general variety facts, not a Rootsbay spec; "With every rice order" promises,
+   Jyothi as red rice, and the rice Q&A need Rootsbay's confirmation. Rice pictures are crops of AI collages (~350 px).
 8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
 9. Email delivery: set `RESEND_API_KEY` (and verify rootsbay.co in Resend for a branded sender), or set `ENQUIRY_WEBHOOK_URL`.
 10. **No personal details of whoever built the site** belong in the repo, on the site, or in git author fields. Only Rootsbay and

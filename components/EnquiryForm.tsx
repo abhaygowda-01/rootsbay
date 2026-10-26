@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { products, shortName } from "@/lib/products";
+import { categories, productsIn, shortName } from "@/lib/products";
 import { enquirySchema, quantityOptions } from "@/lib/enquiry-schema";
 import { site } from "@/lib/site";
 
@@ -12,10 +12,16 @@ const field =
 
 /** Opening line for the message box when a page links here with ?topic=… */
 const topicMessages: Record<string, string> = {
-  agriculture: "I'm interested in agriculture products from Rootsbay. Please let me know when the range is available.",
+  agriculture: "I'm interested in rice from Rootsbay.",
   handicrafts: "I'm interested in handicrafts from Rootsbay. Please let me know when the range is available.",
-  documents: "Please send details of the certificates and test reports available for your areca leaf tableware.",
+  documents: "Please send details of the certificates and test reports available for your products.",
 };
+
+/** Products to pick from, grouped by line. */
+const groups = categories
+  .filter((c) => c.status === "available")
+  .map((c) => ({ name: c.id === "agriculture" ? "Rice" : c.name, items: productsIn(c.id) }));
+const allCodes = new Set(groups.flatMap((g) => g.items.map((p) => p.code)));
 
 export function EnquiryForm() {
   const [selected, setSelected] = useState<string[]>([]);
@@ -29,7 +35,7 @@ export function EnquiryForm() {
     startedAt.current = Date.now();
     const params = new URLSearchParams(window.location.search);
     const code = params.get("product");
-    if (code && products.some((p) => p.code === code)) {
+    if (code && allCodes.has(code)) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- reading the URL once on mount
       setSelected([code]);
     }
@@ -165,23 +171,30 @@ export function EnquiryForm() {
         <legend className="text-sm font-medium">
           Products you&apos;re interested in <span className="font-normal text-muted">(optional)</span>
         </legend>
-        <div className="mt-2 flex max-h-52 flex-wrap gap-2 overflow-y-auto pr-1">
-          {products.map((p) => {
-            const on = selected.includes(p.code);
-            return (
-              <button
-                key={p.code}
-                type="button"
-                aria-pressed={on}
-                onClick={() => toggle(p.code)}
-                className={`rounded-full border px-3 py-1.5 text-left text-[0.8rem] transition-colors ${
-                  on ? "border-forest bg-forest/10 text-forest" : "border-line text-muted hover:border-forest/40"
-                }`}
-              >
-                {shortName(p)}
-              </button>
-            );
-          })}
+        <div className="mt-2 max-h-64 space-y-4 overflow-y-auto pr-1">
+          {groups.map((g) => (
+            <div key={g.name}>
+              <p className="text-xs text-muted">{g.name}</p>
+              <div className="mt-1.5 flex flex-wrap gap-2">
+                {g.items.map((p) => {
+                  const on = selected.includes(p.code);
+                  return (
+                    <button
+                      key={p.code}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => toggle(p.code)}
+                      className={`rounded-full border px-3 py-1.5 text-left text-[0.8rem] transition-colors ${
+                        on ? "border-forest bg-forest/10 text-forest" : "border-line text-muted hover:border-forest/40"
+                      }`}
+                    >
+                      {shortName(p)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </fieldset>
 
@@ -192,7 +205,7 @@ export function EnquiryForm() {
           rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Custom sizes, packaging, branding, target port, delivery date…"
+          placeholder="Grade, bag size, custom sizes, branding, target port, delivery date…"
           className={field}
         />
         {err("message")}

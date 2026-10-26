@@ -13,9 +13,10 @@ This guide is written for a Windows PC with VS Code. Every command is for **Powe
 | Home | `/` | `app/page.tsx` |
 | Products hub (with the title bar of product lines) | `/products` | `app/products/page.tsx` |
 | Biodegradable tableware (live, 20 products, shape filter, buyer Q&A) | `/products/biodegradable-tableware` | `lib/products.ts`, `lib/faq.ts` |
-| Agriculture (coming soon) | `/products/agriculture` | `categories` in `lib/products.ts` |
+| Agriculture: rice (live, 10 varieties, white/red filter, buyer Q&A) | `/products/agriculture` | `lib/rice.ts`, `lib/faq.ts` |
 | Handicrafts (coming soon) | `/products/handicrafts` | `categories` in `lib/products.ts` |
 | 20 product pages | `/products/biodegradable-tableware/<name>` | `lib/products.ts` |
+| 10 rice pages | `/products/agriculture/<name>` | `lib/rice.ts` |
 | About | `/about` | `app/about/page.tsx` |
 | How it's made | `/how-its-made` | `app/how-its-made/page.tsx` |
 | Certificates (GST, IEC, Udyam published) | `/certificates` | `lib/certificates.ts`, `public/certificates/` |
@@ -60,11 +61,13 @@ Open each address below and tick it off.
 
 | Address | What to look for |
 | --- | --- |
-| `/` | Hero, three product-line cards, "Why areca leaf", links to other pages |
+| `/` | Company overview: what Rootsbay does, the four steps of an order, product-line cards, links to other pages. No product specifications. |
 | `/products` | Title bar with All products / Biodegradable tableware / Agriculture / Handicrafts; the active tab is underlined |
 | `/products/biodegradable-tableware` | 20 product cards, shape filter chips, facts, buyer Q&A |
 | `/products/biodegradable-tableware/9-inch-round-deep-rim-plate` | Large photo, description, specs, to-scale outline, "Request a quote for this item" |
-| `/products/agriculture` and `/products/handicrafts` | "Coming soon" page with a "Tell us what you need" button |
+| `/products/agriculture` | 10 rice cards, White rice / Red rice filter, "With every rice order", buyer Q&A |
+| `/products/agriculture/rajamudi-red-rice` | Photo, description, rice type and origin, "Request a quote for this item" |
+| `/products/handicrafts` | "Coming soon" page with a "Tell us what you need" button |
 | `/about` | Founder name, story, product lines |
 | `/how-its-made` | Four steps with a "For you" line under each |
 | `/certificates` | GST, IEC and Udyam cards with previews and PDF links; table of other documents ("Ask us") |
@@ -93,9 +96,11 @@ Everything the site still needs from Rootsbay. Items 1 to 4 matter before launch
 | 5 | Social links | `lib/site.ts` → `social` | Blank, so hidden from the footer | Add the LinkedIn and Instagram page URLs. |
 | 6 | Other certificates and test reports | `lib/certificates.ts` and `public/certificates/` | Four rows read "Ask us": food-contact test report, compostability certificate, certificate of origin, phytosanitary certificate | When a document exists, add the PDF and a page-one image, then set its entry to `status: "held"` (steps are at the top of the file). Add any other registration (for example FSSAI or APEDA) as a new entry. Do not write "FDA approved" or "certified compostable" without the paper. |
 | 7 | Product photos 05 to 20, and the range picture | `public/images/products/05.webp` to `20.webp`, `public/images/range-overview.webp` | 05 to 20 are small crops, soft when enlarged. The range picture is an illustration showing more shapes than the 20 listed. | Replace with real photos at 1200 px or wider, same file names. Photos 01 to 04 are good. |
+| 7b | Rice pictures | `public/images/rice/*.webp` (one per variety, plus `rice-range.webp`) | Crops of AI-generated collages, about 350 px wide, soft when enlarged | Replace with real photos of Rootsbay's own rice at 1200 px or wider, same file names. |
+| 7c | Rice facts and grades | `lib/rice.ts`, rice answers in `lib/faq.ts` | General descriptions of each variety; no grain length, moisture, broken % or crop year. "With every rice order" promises (specification on every quote, samples, packing) are written for Rootsbay to confirm. Jyothi is listed as red rice: confirm. | Correct anything that is not how Rootsbay sells rice, and add grades or specifications when known. |
 | 8 | Logo | `public/brand/`, `app/icon.png`, `app/apple-icon.png` | Cut from a photo of the signboard | Replace with the original logo files from the designer, same names. |
 | 10 | Copy to read once for accuracy | `app/how-its-made/page.tsx`, `app/about/page.tsx`, `lib/faq.ts`, the `pitches` list in `lib/products.ts`, "we reply within one working day" in `components/EnquiryForm.tsx` and `lib/notify.ts` | Written from Rootsbay's product specification and standard process wording | Correct anything that is not how Rootsbay works. |
-| 11 | Agriculture and handicrafts | `categories` in `lib/products.ts` | Coming soon | When products are ready, set `status: "available"` and add items with that `category`. The page, title bar, sitemap and search visibility all follow. |
+| 11 | Handicrafts | `categories` in `lib/products.ts` | Coming soon | When products are ready, set `status: "available"`, fill its `range` copy and add items with that `category`. The page, title bar, sitemap and search visibility all follow. |
 | 12 | Founder name on the site | `lib/site.ts` → `founder`, `legalName`, `tradeName` | Abhay S Gowda, trading as Rootsbay (as on the GST certificate) | Change if the legal structure changes. |
 
 Everything in `lib/site.ts` is shown across the whole site (header, footer, contact page, search data, emails), so edit it once and it updates everywhere.
@@ -125,6 +130,7 @@ A preview of the site is already live at <https://rootsbay.vercel.app>. It is ho
 | --- | --- |
 | Phone, email, address, GSTIN, social links, ordering terms | `lib/site.ts` |
 | Product names, sizes, descriptions, images, product lines | `lib/products.ts` and `public/images/products/` |
+| Rice varieties, descriptions, images | `lib/rice.ts` and `public/images/rice/` |
 | Certificates and documents | `lib/certificates.ts` and `public/certificates/` |
 | Buyer questions and answers | `lib/faq.ts` |
 | Page text | `app/page.tsx`, `app/about/`, `app/how-its-made/`, `app/contact/`, `app/products/` |

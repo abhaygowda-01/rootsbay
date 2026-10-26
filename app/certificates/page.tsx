@@ -6,9 +6,9 @@ import { credentials } from "@/lib/certificates";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Certificates and compliance for areca leaf plates",
+  title: "Certificates and export documents",
   description:
-    "Rootsbay's GST, IEC and Udyam (MSME) registrations, and the documents importers ask areca leaf plate suppliers for: test reports and export papers.",
+    "Rootsbay's GST, IEC and Udyam (MSME) registrations, and the documents importers of rice and areca leaf tableware ask for: test reports and export papers.",
   path: "/certificates",
 });
 
@@ -19,8 +19,8 @@ export default function CertificatesPage() {
     <>
       <PageHero title="Certificates and compliance" crumbs={<Breadcrumbs items={[{ name: "Certificates", path: "/certificates" }]} />}>
         Rootsbay is a registered business in Bengaluru, India, with GST, Importer-Exporter Code (IEC) and Udyam (MSME)
-        registrations. This page publishes those certificates and lists the other documents importers usually ask an areca leaf
-        plate supplier for. For test reports and export documents, ask us and we will tell you what is available for your market.
+        registrations. This page publishes those certificates and lists the other documents importers usually ask an agro
+        exporter for. For test reports and export documents, ask us and we will tell you what is available for your market.
       </PageHero>
 
       {/* Held documents */}

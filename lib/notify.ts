@@ -1,5 +1,5 @@
 import "server-only";
-import { products } from "./products";
+import { detailLabel, products } from "./products";
 import { site } from "./site";
 import type { Enquiry } from "./enquiry-schema";
 
@@ -27,7 +27,7 @@ const esc = (s: string) =>
 function productNames(codes: string[]) {
   return codes.map((code) => {
     const p = products.find((x) => x.code === code);
-    return p ? `${p.code} — ${p.name} (${p.sizeLabel})` : code;
+    return p ? `${p.code} — ${p.name} (${detailLabel(p)})` : code;
   });
 }
 
@@ -65,7 +65,7 @@ function teamEmail(e: Enquiry, meta: { id: string; ip: string; receivedAt: strin
 function buyerEmail(e: Enquiry) {
   const text = `Hi ${e.name},
 
-Thank you for your enquiry. We've received your request for ${e.quantity.toLowerCase()} and will reply within one working day with pricing, MOQ and shipping options to ${e.country}.
+Thank you for your enquiry (${e.quantity.toLowerCase()}). We'll reply within one working day with pricing, MOQ and shipping options to ${e.country}.
 
 For anything urgent, call or WhatsApp us on ${site.contact.phone}.
 
