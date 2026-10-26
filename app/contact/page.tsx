@@ -65,7 +65,7 @@ export default function ContactPage() {
 
           <h2 className="mt-12 text-2xl font-semibold tracking-[-0.01em] text-forest">What to include</h2>
           <ul className="mt-4 space-y-2 leading-relaxed text-muted">
-            <li>The shapes you want. Product codes such as RB-AL-04 help, but you can describe them too.</li>
+            <li>The shapes you want. Product names help, but you can describe them too.</li>
             <li>Roughly how many pieces, or whether you want samples first.</li>
             <li>The country or port you are shipping to.</li>
             <li>Any custom size, packaging or branding you need.</li>

@@ -46,7 +46,6 @@ export default async function ProductPage(props: PageProps<"/products/[category]
     .slice(0, 3);
 
   const specs: [string, string][] = [
-    ["Product code", p.code],
     ["Size", p.sizeLabel],
     ["Shape", p.profile],
     ["Best for", p.bestFor],
@@ -88,8 +87,7 @@ export default async function ProductPage(props: PageProps<"/products/[category]
         </figure>
 
         <div>
-          <p className="text-sm text-muted">{p.code}</p>
-          <h1 className="mt-1 text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">{p.name}</h1>
+          <h1 className="text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-4xl">{p.name}</h1>
           <p className="mt-5 text-lg leading-relaxed text-ink/90">{p.description}</p>
           <p className="mt-4 text-lg leading-relaxed text-muted">{p.pitch}</p>
 

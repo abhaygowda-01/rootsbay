@@ -48,6 +48,8 @@ sections, carousels, popups or animations unless asked.
 - Signature idea: **dimensions as decoration** — brass dimension line under hero/product images (`.dim`) and
   to-scale outlines of each product in a 12″ frame (`components/ShapeOutline.tsx`). Don't add other ornaments.
 - Only motion: one hero load reveal (`.rise`). Respect reduced motion.
+- Product codes (RB-AL-NN) are for Rootsbay's internal reference: never show them in visible page text. They stay in
+  `?product=` links, the Product JSON-LD `sku` and the enquiry email to Rootsbay.
 
 ## Open items (confirm with Rootsbay before launch)
 The README has the full handover table (what to fill, and where). In short:

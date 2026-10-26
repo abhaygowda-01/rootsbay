@@ -61,7 +61,7 @@ export default function Home() {
               />
             </div>
             <figcaption className="dim mt-4 text-sm">
-              <span className="text-brass-300">6″ × 6″ square tray, RB-AL-02</span>
+              <span className="text-brass-300">6″ × 6″ square tray</span>
             </figcaption>
           </figure>
         </div>

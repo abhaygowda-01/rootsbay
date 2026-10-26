@@ -20,7 +20,7 @@ export const faqByCategory: Partial<Record<CategoryId, Faq[]>> = {
     },
     {
       q: "Can areca leaf plates hold hot food?",
-      a: "Yes. Rootsbay's areca leaf plates and bowls are heat resistant up to 100 °C and leak-resistant with light sauces, according to Rootsbay's specification. For gravies, curries and soups, choose a deep-sided piece such as the 9-inch deep rim plate (RB-AL-06) or the 5-inch soup bowl (RB-AL-07).",
+      a: "Yes. Rootsbay's areca leaf plates and bowls are heat resistant up to 100 °C and leak-resistant with light sauces, according to Rootsbay's specification. For gravies, curries and soups, choose a deep-sided piece such as the 9-inch deep rim plate or the 5-inch soup bowl.",
     },
     {
       q: "Are areca leaf plates microwave safe?",

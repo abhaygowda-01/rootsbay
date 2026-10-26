@@ -2,7 +2,7 @@ import Image from "next/image";
 
 /** Wide picture of plates, bowls and trays side by side, with the brass dimension-line caption. */
 export function RangeOverview({
-  caption = "Illustrative: the range comes in round, square, rectangular and oval shapes. Exact sizes and codes are listed with each product.",
+  caption = "Illustrative: the range comes in round, square, rectangular and oval shapes. Exact sizes are listed with each product.",
 }: {
   caption?: string;
 }) {

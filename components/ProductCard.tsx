@@ -19,8 +19,7 @@ export function ProductCard({ product: p, priority = false }: { product: Product
       </div>
       <div className="mt-4 flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="text-xs text-muted">{p.code}</p>
-          <h3 className="mt-0.5 font-sans text-lg leading-snug font-semibold text-ink group-hover:text-forest">{p.name}</h3>
+          <h3 className="font-sans text-lg leading-snug font-semibold text-ink group-hover:text-forest">{p.name}</h3>
           <p className="mt-1 text-sm text-muted">{p.sizeLabel}</p>
           <p className="mt-2 text-[0.95rem] leading-relaxed text-muted">{p.summary}</p>
         </div>
