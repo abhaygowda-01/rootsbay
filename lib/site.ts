@@ -34,15 +34,14 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rootsbay.co",
 
   contact: {
-    // Email is the company address. The mobile is the one printed on Rootsbay's Udyam registration
-    // certificate (Abhay S Gowda). PLACEHOLDER — swap the mobile for a dedicated sales number if one
-    // exists. Changing these lines updates the whole site.
+    // Email is the company address. The phone is the number Rootsbay asked for in October 2026
+    // (it replaced the mobile printed on the Udyam certificate). Changing these lines updates the whole site.
     email: "connect@rootsbay.co",
-    phone: "+91 98443 64352",
-    phoneHref: "tel:+919844364352",
-    // WhatsApp click-to-chat. PLACEHOLDER — assumes the mobile above is on WhatsApp; confirm.
+    phone: "+91 83103 05693",
+    phoneHref: "tel:+918310305693",
+    // WhatsApp click-to-chat. PLACEHOLDER — assumes the phone above is on WhatsApp; confirm.
     whatsappHref:
-      "https://wa.me/919844364352?text=" + encodeURIComponent("Hello Rootsbay, I'd like a quote."),
+      "https://wa.me/918310305693?text=" + encodeURIComponent("Hello Rootsbay, I'd like a quote."),
   },
 
   address: {

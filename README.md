@@ -89,7 +89,7 @@ Everything the site still needs from Rootsbay. Items 1 to 4 matter before launch
 
 | # | What | Where | Today | What to do |
 | --- | --- | --- | --- | --- |
-| 1 | Public email, phone and WhatsApp | `lib/site.ts` → `contact` | Email `connect@rootsbay.co`; mobile as printed on the Udyam certificate | Confirm the `connect@rootsbay.co` mailbox exists and is read. Keep the mobile or replace it with a sales number. WhatsApp is assumed to be the same mobile: confirm. |
+| 1 | Public email, phone and WhatsApp | `lib/site.ts` → `contact` | Email `connect@rootsbay.co`; phone `+91 83103 05693` | Confirm the `connect@rootsbay.co` mailbox exists and is read. WhatsApp is assumed to be the same number: confirm. |
 | 2 | Where enquiries are emailed | `.env.local` (local) and Vercel settings (live): `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` | API key empty, so nothing is emailed | Sign up at <https://resend.com>, create a key, paste it. See "Make the form send email" below. |
 | 3 | Final website address | `NEXT_PUBLIC_SITE_URL` in `.env.local` and Vercel | `https://www.rootsbay.co` | Confirm the domain. It feeds canonical links and the sitemap. |
 | 4 | Business facts buyers ask for | `lib/site.ts` → `ordering` (minimum order, pricing basis, lead time, packing, samples, markets) | Blank, so the panel is hidden | Fill any of them; an "Ordering at a glance" panel appears on `/contact`. Blank fields stay hidden. |

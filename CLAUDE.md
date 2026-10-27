@@ -68,8 +68,8 @@ The README has the full handover table (what to fill, and where). In short:
    `public/certificates/`). Food-contact test report, compostability certificate, certificate of origin and phytosanitary
    certificate read "Ask us" until the real file is added and its entry in `lib/certificates.ts` is set to `status: "held"`.
    Never mark a document held, or write "FDA approved" / "certified compostable", without the paper.
-6. **Public contact details** (`lib/site.ts` → `contact`): email is `connect@rootsbay.co`; the mobile is the one printed on the Udyam
-   certificate (Abhay S Gowda). WhatsApp is assumed to be that same mobile. The Udyam PDF and preview also print his personal
+6. **Public contact details** (`lib/site.ts` → `contact`): email is `connect@rootsbay.co`; phone is `+91 83103 05693`, supplied by
+   Rootsbay in October 2026. WhatsApp is assumed to be that same number. The Udyam PDF and preview still print Abhay's personal
    mobile and Gmail; Rootsbay confirmed that is fine to publish.
 7. **"Coming soon" lines** (handicrafts) are `noindex` and left out of the sitemap until their `status` in
    `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.

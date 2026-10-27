@@ -65,6 +65,8 @@ export type Category = {
   seoDescription: string;
   /** Real photo for cards; categories without one are drawn as type-only cards. */
   image?: { src: string; alt: string };
+  /** Three product slugs shown as small photos under the line's card on the home page. */
+  featured?: string[];
   /** Section copy for an available line's page. `heading` follows the item count: "20 shapes, one material". */
   range?: {
     heading: string;
@@ -111,6 +113,7 @@ export const categories: Category[] = [
     seoDescription:
       "Areca leaf plates, bowls and trays exported from India: 20 shapes from 4 to 11 inches, heat resistant to 100 °C, home compostable. Request bulk pricing.",
     image: { src: "/images/products/03.webp", alt: "Round areca leaf plate holding a quinoa salad with grilled chicken" },
+    featured: ["4-inch-round-dessert-plate", "6-inch-square-dip-tray", "9x6-inch-rectangular-sushi-plate"],
     range: {
       heading: "shapes, one material",
       intro:
@@ -130,7 +133,8 @@ export const categories: Category[] = [
     seoTitle: "Indian rice exporter: Sona Masuri, Basmati and red rice",
     seoDescription:
       "Rootsbay exports rice from India: Sona Masuri, Gangavathi Sona, Basmati, IR-20, and Rajamudi and Kempu Akki red rice. Request bulk pricing.",
-    image: { src: "/images/rice/rice-range.webp", alt: "Bowls of Basmati and Sona Masuri rice on a wooden table" },
+    image: { src: "/images/rice/rice-range.webp", alt: "Three bowls of rice on a wooden table: two white rices and a red rice" },
+    featured: ["basmati-rice", "kempu-akki-red-rice", "gangavathi-sona-rice"],
     range: {
       heading: "varieties of rice",
       intro:

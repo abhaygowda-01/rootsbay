@@ -13,6 +13,16 @@ export const metadata = pageMeta({
 });
 
 // The home page says what the company does. Product specifications live on the product pages.
+// Layout is built on one centre line: centred headings, equal tiles, mirrored pairs.
+
+// Alternating tableware and rice, so the 2 × 2 grid on phones reads as a checkerboard.
+const heroPhotos = [
+  { src: "/images/products/01.webp", alt: "Round areca leaf plate with fresh berries" },
+  { src: "/images/rice/rajamudi.webp", alt: "A bowl of Rajamudi red rice" },
+  { src: "/images/products/02.webp", alt: "Square areca leaf tray holding hummus and pita bread" },
+  { src: "/images/rice/basmati.webp", alt: "A bowl of Basmati rice" },
+];
+
 const steps = [
   {
     title: "Source",
@@ -32,63 +42,61 @@ const steps = [
   },
 ];
 
+const buyers = ["Importers", "Distributors", "Wholesalers", "Retailers", "Caterers"];
+
 const explore = [
   { href: "/about", title: "About Rootsbay", body: "An agro-export house from Bengaluru, built around Karnataka's farms." },
   { href: "/certificates", title: "Certificates", body: "Our registrations, and the documents importers ask for." },
   { href: "/contact", title: "Contact", body: "Email, phone or WhatsApp. Tell us what you need and where it is going." },
 ];
 
+const sectionHeading = "text-3xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl";
+
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section className="bg-canopy text-white">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 pt-14 pb-16 sm:px-6 md:grid-cols-[1.05fr_1fr] md:pt-20 md:pb-24">
-          <div>
-            <h1 className="rise text-[2.5rem] leading-[1.04] font-semibold tracking-[-0.025em] sm:text-6xl">
-              From India&apos;s farms to buyers around the world.
-            </h1>
-            <p className="rise rise-1 mt-6 max-w-[34rem] text-lg leading-relaxed text-white/75">
-              Rootsbay is an agro-export company in Bengaluru. We source products from Karnataka and across India, check every
-              order, prepare the export paperwork and ship to importers, distributors and caterers abroad.
-            </p>
-            <div className="rise rise-2 mt-9 flex flex-wrap gap-3">
-              <Link href="/contact" className="rounded-full bg-white px-6 py-3 font-medium text-canopy transition-colors hover:bg-sheath">
-                Request a quote
-              </Link>
-              <Link
-                href="/products"
-                className="rounded-full border border-white/30 px-6 py-3 font-medium text-white transition-colors hover:border-white/70"
-              >
-                See our products
-              </Link>
-            </div>
+        <div className="mx-auto max-w-6xl px-4 pt-14 pb-14 text-center sm:px-6 md:pt-24 md:pb-20">
+          <p className="rise text-sm font-medium text-brass-300">Agro exports from Bengaluru, India</p>
+          <h1 className="rise rise-1 mx-auto mt-4 max-w-4xl text-[2.6rem] leading-[1.04] font-semibold tracking-[-0.025em] sm:text-6xl md:text-7xl">
+            From India&apos;s farms to buyers around the world.
+          </h1>
+          <p className="rise rise-1 mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
+            Rootsbay is an agro-export company in Bengaluru. We source products from Karnataka and across India, check every
+            order, prepare the export paperwork and ship to importers, distributors and caterers abroad.
+          </p>
+          <div className="rise rise-2 mx-auto mt-9 flex max-w-xs flex-col gap-3 sm:max-w-none sm:flex-row sm:justify-center">
+            <Link
+              href="/contact"
+              className="rounded-full bg-white px-7 py-3.5 font-medium text-canopy transition-colors hover:bg-sheath"
+            >
+              Request a quote
+            </Link>
+            <Link
+              href="/products"
+              className="rounded-full border border-white/30 px-7 py-3.5 font-medium text-white transition-colors hover:border-white/70"
+            >
+              See our products
+            </Link>
           </div>
 
-          <figure className="rise rise-3">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
-                <Image
-                  src="/images/rice/rajamudi.webp"
-                  alt="A bowl of Rajamudi red rice"
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 260px, 46vw"
-                  className="object-cover"
-                />
-              </div>
-              <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
-                <Image
-                  src="/images/products/02.webp"
-                  alt="Square areca leaf tray holding hummus and pita bread"
-                  fill
-                  priority
-                  sizes="(min-width: 768px) 260px, 46vw"
-                  className="object-cover"
-                />
-              </div>
-            </div>
-            <figcaption className="dim mt-4 text-sm">
+          <figure className="rise rise-3 mt-12 md:mt-16">
+            <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+              {heroPhotos.map((p, i) => (
+                <li key={p.src} className="relative aspect-square overflow-hidden rounded-xl">
+                  <Image
+                    src={p.src}
+                    alt={p.alt}
+                    fill
+                    priority={i < 2}
+                    sizes="(min-width: 1152px) 264px, (min-width: 768px) 23vw, 46vw"
+                    className="object-cover"
+                  />
+                </li>
+              ))}
+            </ul>
+            <figcaption className="dim mx-auto mt-5 max-w-md text-sm">
               <span className="text-brass-300">Rice and areca leaf tableware</span>
             </figcaption>
           </figure>
@@ -96,70 +104,74 @@ export default function Home() {
       </section>
 
       {/* What we do */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-        <div className="grid gap-12 md:grid-cols-2">
-          <div>
-            <h2 className="text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">What Rootsbay does</h2>
-            <p className="mt-6 max-w-[34rem] text-lg leading-relaxed text-muted">
-              We are one supplier from farm to port. Rootsbay handles every step of an export order, so you deal with one
-              accountable company instead of a chain of agents and traders.
-            </p>
-            <p className="mt-4 max-w-[34rem] text-lg leading-relaxed text-muted">
-              We supply importers, distributors, wholesalers, retailers and caterers in markets abroad.
-            </p>
-          </div>
+      <section className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 md:py-24">
+        <h2 className={sectionHeading}>What Rootsbay does</h2>
+        <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+          We are one supplier from farm to port. Rootsbay handles every step of an export order, so you deal with one
+          accountable company instead of a chain of agents and traders.
+        </p>
 
-          <ol className="grid content-start gap-x-8 gap-y-10 sm:grid-cols-2 md:pt-3">
-            {steps.map((s, i) => (
-              <li key={s.title} className="border-t-2 border-brass pt-4">
-                <h3 className="font-display text-xl font-semibold text-ink">
-                  <span className="text-brass" aria-hidden="true">
-                    {i + 1}{" "}
-                  </span>
-                  {s.title}
-                </h3>
-                <p className="mt-2 leading-relaxed text-muted">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+        <ol className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-4 lg:grid-cols-4">
+          {steps.map((s, i) => (
+            <li key={s.title} className="rounded-2xl border border-line bg-white px-3 py-6 sm:px-6 sm:py-8">
+              <span
+                className="mx-auto flex size-10 items-center justify-center rounded-full border border-brass font-display text-lg font-semibold text-brass sm:size-11"
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <h3 className="mt-3 text-lg font-semibold text-ink sm:mt-4 sm:text-xl">{s.title}</h3>
+              <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted sm:text-base">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+
+        <p className="mt-12 text-sm text-muted">We supply</p>
+        <ul className="mt-3 flex flex-wrap justify-center gap-2">
+          {buyers.map((b) => (
+            <li key={b} className="rounded-full border border-line bg-white px-4 py-1.5 text-sm text-ink">
+              {b}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Product lines */}
       <section className="bg-sheath-50">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-          <h2 className="max-w-2xl text-4xl leading-tight font-semibold tracking-[-0.02em] text-forest sm:text-5xl">
-            What Rootsbay exports
-          </h2>
-          <p className="mt-4 max-w-[38rem] text-lg leading-relaxed text-muted">
-            Rice and biodegradable tableware are available now, and handicrafts are in preparation. Each line has its own page
-            with the full range.
-          </p>
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+          <div className="text-center">
+            <h2 className={sectionHeading}>What Rootsbay exports</h2>
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+              Rice and biodegradable tableware are available now, and handicrafts are in preparation. Each line has its own page
+              with the full range.
+            </p>
+          </div>
 
           <div className="mt-12">
-            <CategoryCards />
+            <CategoryCards variant="home" />
           </div>
         </div>
       </section>
 
       {/* Keep exploring */}
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-24">
+      <section className="mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 md:py-24">
         <h2 className="text-3xl font-semibold tracking-[-0.02em] text-forest sm:text-4xl">Learn more about Rootsbay</h2>
-        <ul className="mt-10 grid gap-8 md:grid-cols-3">
+        <ul className="mt-10 grid gap-10 md:grid-cols-3 md:gap-8">
           {explore.map((e) => (
             <li key={e.href}>
-              <Link href={e.href} className="group block border-t-2 border-brass pt-4">
-                <h3 className="font-display text-xl font-semibold text-ink group-hover:text-forest">
+              <Link href={e.href} className="group block">
+                <span className="mx-auto block h-0.5 w-10 bg-brass" aria-hidden="true" />
+                <h3 className="mt-4 font-display text-xl font-semibold text-ink group-hover:text-forest">
                   {e.title} <span aria-hidden="true">→</span>
                 </h3>
-                <p className="mt-2 leading-relaxed text-muted">{e.body}</p>
+                <p className="mx-auto mt-2 max-w-xs leading-relaxed text-muted">{e.body}</p>
               </Link>
             </li>
           ))}
         </ul>
       </section>
 
-      <CtaBand />
+      <CtaBand centered />
     </>
   );
 }
