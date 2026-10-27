@@ -7,8 +7,8 @@ import type { RiceProduct } from "./products";
  * are general, widely published facts about each variety, written for buyers — not a Rootsbay
  * specification. No grain sizes, moisture or broken percentages here until Rootsbay supplies them.
  *
- * Pictures are crops of those collages (AI-generated, ~350 px wide, soft when enlarged).
- * Replace them with real photos at 1200 px or wider, same file names in public/images/rice/.
+ * Pictures are AI-generated stand-ins (Canva, 1200 × 900, one per variety, saved in the Canva design
+ * "Rice Photo Board"). Replace them with photos of Rootsbay's own rice, same file names in public/images/rice/.
  */
 const varieties: Omit<RiceProduct, "kind" | "category" | "photo">[] = [
   {

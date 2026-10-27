@@ -74,7 +74,8 @@ The README has the full handover table (what to fill, and where). In short:
 7. **"Coming soon" lines** (handicrafts) are `noindex` and left out of the sitemap until their `status` in
    `lib/products.ts` becomes `"available"`. Their intro copy names no specific products — add real ones then.
    **Rice** (agriculture): descriptions are general variety facts, not a Rootsbay spec; "With every rice order" promises,
-   Jyothi as red rice, and the rice Q&A need Rootsbay's confirmation. Rice pictures are crops of AI collages (~350 px).
+   Jyothi as red rice, and the rice Q&A need Rootsbay's confirmation. Rice pictures are AI-generated stand-ins
+   (Canva, 1200 × 900; originals in the Canva design "Rice Photo Board"), to be replaced by photos of Rootsbay's own rice.
 8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
 9. Email delivery: set `RESEND_API_KEY` (and verify rootsbay.co in Resend for a branded sender), or set `ENQUIRY_WEBHOOK_URL`.
 10. **No personal details of whoever built the site** belong in the repo, on the site, or in git author fields. Only Rootsbay and
