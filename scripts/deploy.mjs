@@ -36,5 +36,10 @@ try {
   const vercel = join(root, "node_modules", "vercel", "dist", "vc.js");
   execFileSync(process.execPath, [vercel, "deploy", "--prod", "--yes"], { cwd: site, stdio: "inherit" });
 } finally {
-  rmSync(temp, { recursive: true, force: true });
+  // On Windows the Vercel CLI can keep the folder open for a moment after it exits; a leftover temp folder is harmless.
+  try {
+    rmSync(temp, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 });
+  } catch {
+    console.warn(`Could not remove the temporary folder ${temp}; Windows will clear it with other temp files.`);
+  }
 }
