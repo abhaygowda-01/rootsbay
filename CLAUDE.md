@@ -86,7 +86,10 @@ The README has the full handover table (what to fill, and where). In short:
 - `npm run verify` — lint + type check + production build; then `npm start` to serve the build
 - `npm run lint`, `npm run typecheck`, `npm run clean` (deletes `.next`)
 - New PC: `npm install`, then `Copy-Item .env.example .env.local`. VS Code tasks and debug config are in `.vscode/`.
-- Deploy: push to GitHub → import in Vercel → add env vars → point rootsbay.co DNS to Vercel.
+- Deploy: commit, then `npm run deploy` (`scripts/deploy.mjs`: `git archive HEAD` to a temp folder, then `vercel deploy --prod`
+  into project `rootsbay-exports`, live at https://rootsbay-exports.vercel.app). Vercel is NOT connected to GitHub on purpose:
+  the Hobby plan blocks deploys whose commit author isn't the account owner, and commits stay authored "Rootsbay Website"
+  (open item 10). Pushing to GitHub is backup only. New PC: `npx vercel login`, `npx vercel link --project rootsbay-exports`.
 
 ## Natural next steps
 - Fill the ordering terms (open item 4) and add more buyer Q&A once MOQ, samples, lead time and Incoterms are known

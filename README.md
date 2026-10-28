@@ -116,13 +116,23 @@ Prefer a spreadsheet? Set `ENQUIRY_WEBHOOK_URL` to a Google Apps Script web app 
 
 ## Publish it (Vercel)
 
-A preview of the site is already live at <https://rootsbay.vercel.app>. It is hosted under the builder's Vercel account, so to own it, import the GitHub repository into your own Vercel account (steps below), add your domain, and then the preview can be deleted.
+The site is live at <https://rootsbay-exports.vercel.app>, in the Vercel project `rootsbay-exports` (Rootsbay's own Vercel account). The older preview at `rootsbay.vercel.app` sits in the builder's account and no longer updates.
 
-1. Put the project in a **private** GitHub repository.
-2. Import it at <https://vercel.com/new>. The framework is detected automatically.
-3. Under Settings → Environment Variables add the same names as in `.env.local`: `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` (and `ENQUIRY_WEBHOOK_URL` if used).
-4. Under Domains add `rootsbay.co` and `www.rootsbay.co`, and update DNS at the registrar as Vercel shows.
-5. After the first deploy, open Google Search Console, add the site and submit `https://www.rootsbay.co/sitemap.xml`.
+**Deploying a change.** Commit it, then run:
+
+```powershell
+npm run deploy
+```
+
+That puts the last commit live in about a minute. Uncommitted changes are not deployed. Pushing to GitHub only backs the code up: Vercel is deliberately not connected to GitHub, because Vercel's free plan blocks deployments whose commit author is not the account owner, and commits here are authored "Rootsbay Website". `scripts/deploy.mjs` gets round that by exporting the committed files (`git archive`) to a temporary folder and deploying that.
+
+First time on a new PC: `npm install`, then `npx vercel login` and `npx vercel link --project rootsbay-exports`.
+
+Still to do on Vercel:
+
+1. Under Settings → Environment Variables add the same names as in `.env.local`: `NEXT_PUBLIC_SITE_URL`, `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` (and `ENQUIRY_WEBHOOK_URL` if used), then run `npm run deploy` again.
+2. Under Domains add `rootsbay.co` and `www.rootsbay.co`, and update DNS at the registrar as Vercel shows.
+3. Then open Google Search Console, add the site and submit `https://www.rootsbay.co/sitemap.xml`.
 
 ## Day-to-day editing
 
