@@ -6,8 +6,8 @@ and the README (owner's handover table). This file covers the current state, how
 ## Current state
 
 - **Live site:** <https://rootsbay-exports.vercel.app> (Vercel project `rootsbay-exports`, Rootsbay's own Vercel account).
-  It runs commit `30eb114`, which is also `main` on GitHub. Local `main` is one commit ahead (the Gemini pictures below),
-  not yet deployed or pushed.
+  It runs commit `b9e1170` (the Gemini pictures). `main`, local and on GitHub, adds only a docs commit on top (this file),
+  which needs no deploy.
 - **Old preview:** `rootsbay.vercel.app` lives in a different Vercel account, shows an older version and no longer updates.
   Its owner should delete it or transfer the project.
 - **Nothing uncommitted.**
@@ -16,7 +16,7 @@ and the README (owner's handover table). This file covers the current state, how
 
 | Commit | What |
 | --- | --- |
-| next after `30eb114` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
+| `b9e1170` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
 | `30eb114` | Deploy script tolerates a locked temp folder on Windows |
 | `d6c2830` | `npm run deploy` (`scripts/deploy.mjs`); Vercel CLI added as a dev dependency; Vercel disconnected from GitHub |
 | `8dc718b` | Phone and WhatsApp → `+91 83103 05693`; home page redesigned (centred, symmetric, phone-first); rice photo strip on the home Agriculture card |
