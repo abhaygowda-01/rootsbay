@@ -9,7 +9,7 @@ export const metadata = pageMeta({
   description:
     "How areca leaf plates are made: fallen palm leaf sheaths collected in Karnataka, washed, sun-dried and heat-pressed with no glue or coating.",
   path: "/how-its-made",
-  image: { url: "/images/products/03.webp", width: 1408, height: 768, alt: "Round areca leaf plate holding a quinoa salad with grilled chicken" },
+  image: { url: "/images/products/03.webp", width: 1200, height: 900, alt: "Round areca leaf plate holding a quinoa salad with grilled chicken" },
 });
 
 const steps = [

@@ -85,6 +85,7 @@ export default async function ProductPage(props: PageProps<"/products/[category]
   const related = relatedTo(p);
   const specs = specsFor(p);
   const range = category.range;
+  const emptyImage = p.kind === "tableware" ? p.emptyImage : undefined;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -94,7 +95,7 @@ export default async function ProductPage(props: PageProps<"/products/[category]
     url: `${site.url}${productHref(p)}`,
     category: category.name,
     description: `${p.description} ${p.pitch}`,
-    image: `${site.url}${p.image}`,
+    image: emptyImage ? [`${site.url}${p.image}`, `${site.url}${emptyImage}`] : `${site.url}${p.image}`,
     ...(p.kind === "tableware" ? { material: "Areca palm leaf" } : {}),
     brand: { "@type": "Brand", name: site.name },
     manufacturer: { "@type": "Organization", name: site.name, url: site.url },
@@ -112,9 +113,20 @@ export default async function ProductPage(props: PageProps<"/products/[category]
 
       <div className="mt-8 grid gap-10 md:grid-cols-[1.15fr_1fr] md:gap-14">
         <figure>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-sheath">
-            <Image src={p.image} alt={imageAlt(p)} fill priority sizes="(min-width: 768px) 620px, 92vw" className="object-cover" />
-          </div>
+          {emptyImage ? (
+            <div className="grid grid-cols-2 gap-3">
+              <div className="relative aspect-square overflow-hidden rounded-xl bg-sheath">
+                <Image src={p.image} alt={imageAlt(p)} fill priority sizes="(min-width: 768px) 310px, 46vw" className="object-cover" />
+              </div>
+              <div className="relative aspect-square overflow-hidden rounded-xl bg-sheath">
+                <Image src={emptyImage} alt={`Empty ${p.name}`} fill sizes="(min-width: 768px) 310px, 46vw" className="object-cover" />
+              </div>
+            </div>
+          ) : (
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-sheath">
+              <Image src={p.image} alt={imageAlt(p)} fill priority sizes="(min-width: 768px) 620px, 92vw" className="object-cover" />
+            </div>
+          )}
           <figcaption className="dim mt-4 text-sm">
             <span>{detailLabel(p)}</span>
           </figcaption>

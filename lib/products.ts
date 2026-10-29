@@ -36,6 +36,8 @@ export type TablewareProduct = BaseProduct & {
   size: { width: number; height: number; depth?: number };
   sizeLabel: string;
   profile: string;
+  /** The piece empty, on a plain backdrop; shown beside the in-use photo on the product page. */
+  emptyImage?: string;
 };
 
 export type RiceProduct = BaseProduct & {
@@ -208,6 +210,7 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Crafted from naturally fallen raw palm leaves, this 4-inch round plate is a fully biodegradable option for single-portion appetisers, cocktail nibbles, fresh berries or tapas.",
     highlights: ["Heat resistant", "Leak-proof against light sauces"],
     image: "/images/products/01.webp",
+    emptyImage: "/images/products/01-empty.webp",
     photo: true,
   },
   {
@@ -226,6 +229,7 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Structured right-angle rims and good rigidity keep oil from seeping and give clean separation between snacks and dipping sauces. Suited to cocktail parties and catering setups.",
     highlights: ["Resists oil seepage", "Rigid right-angle rim"],
     image: "/images/products/02.webp",
+    emptyImage: "/images/products/02-empty.webp",
     photo: true,
   },
   {
@@ -244,6 +248,7 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Made to carry full-sized meals without bending under weight. The natural leaf grain gives grain salads, quinoa bowls and grilled dishes a clean, natural backdrop.",
     highlights: ["Holds full meals without bending", "Natural leaf grain finish"],
     image: "/images/products/03.webp",
+    emptyImage: "/images/products/03-empty.webp",
     photo: true,
   },
   {
@@ -262,6 +267,7 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Clean rectangular geometry for Asian fusion cuisine, sushi rolls and dim sum platters. Naturally cut and heat-pressed for smooth edges and durability.",
     highlights: ["Heat-pressed smooth edges", "Low rim for neat plating"],
     image: "/images/products/04.webp",
+    emptyImage: "/images/products/04-empty.webp",
     photo: true,
   },
   {
@@ -280,7 +286,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Built to hold heavy mains without bowing. Its rigid structure carries barbecued meats, roasted vegetables and hearty sides at outdoor catered dinners.",
     highlights: ["Holds heavy mains without bowing", "Rigid structure"],
     image: "/images/products/05.webp",
-    photo: false,
+    emptyImage: "/images/products/05-empty.webp",
+    photo: true,
   },
   {
     slug: "9-inch-round-deep-rim-plate",
@@ -298,7 +305,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "High structural walls hold meals with light gravies or rice bases. Non-toxic and chemical-free.",
     highlights: ["Microwavable up to 2 minutes", "Non-toxic, chemical-free"],
     image: "/images/products/06.webp",
-    photo: false,
+    emptyImage: "/images/products/06-empty.webp",
+    photo: true,
   },
   {
     slug: "5-inch-deep-soup-bowl",
@@ -316,7 +324,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Moulded under high heat for thermal stability and liquid retention. Holds hot soups, chilli or broth without softening or passing excess heat to the hands.",
     highlights: ["Holds up to 350 ml", "Stays cool to hold"],
     image: "/images/products/07.webp",
-    photo: false,
+    emptyImage: "/images/products/07-empty.webp",
+    photo: true,
   },
   {
     slug: "8-5-inch-shallow-pasta-bowl",
@@ -334,7 +343,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Combines the surface area of a plate with the liquid retention of a bowl. Good for saucy pasta, Italian dishes and curried rice without spills.",
     highlights: ["Plate surface, bowl retention", "Spill-resistant rim"],
     image: "/images/products/08.webp",
-    photo: false,
+    emptyImage: "/images/products/08-empty.webp",
+    photo: true,
   },
   {
     slug: "10-inch-square-buffet-platter",
@@ -352,7 +362,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Made for heavy-duty catering and wedding buffets. Holds several food items — breads, rice and sides — at once without sagging or leaking oil.",
     highlights: ["No sagging under full meals", "No oil leakage"],
     image: "/images/products/09.webp",
-    photo: false,
+    emptyImage: "/images/products/09-empty.webp",
+    photo: true,
   },
   {
     slug: "5-inch-square-pastry-plate",
@@ -370,7 +381,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "An artisan touch for bakery displays, wedding dessert stations and high-tea events. Light, yet sturdy enough that cutlery won't puncture the base.",
     highlights: ["Cutlery won't puncture the base", "Lightweight"],
     image: "/images/products/10.webp",
-    photo: false,
+    emptyImage: "/images/products/10-empty.webp",
+    photo: true,
   },
   {
     slug: "6-inch-round-snack-bowl-plate",
@@ -388,7 +400,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Holds dry snacks, roasted nuts or small finger food. Stacks compactly for storage and easy distribution at gatherings.",
     highlights: ["Stackable", "Recessed centre"],
     image: "/images/products/11.webp",
-    photo: false,
+    emptyImage: "/images/products/11-empty.webp",
+    photo: true,
   },
   {
     slug: "9-inch-round-burger-plate",
@@ -406,7 +419,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Resists grease from fried food and warm sandwiches. Suited to food trucks and casual outdoor barbecues.",
     highlights: ["Grease resistant", "Wide flat centre"],
     image: "/images/products/12.webp",
-    photo: false,
+    emptyImage: "/images/products/12-empty.webp",
+    photo: true,
   },
   {
     slug: "11x7-inch-rectangular-serving-tray",
@@ -424,7 +438,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Maximum surface area for family-style service or shared appetiser spreads. Serve oven-roasted dishes straight onto it.",
     highlights: ["Heat resistant up to 100 °C", "Largest serving surface"],
     image: "/images/products/13.webp",
-    photo: false,
+    emptyImage: "/images/products/13-empty.webp",
+    photo: true,
   },
   {
     slug: "7-inch-round-noodle-bowl",
@@ -442,7 +457,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Holds individual portions of broth-heavy dishes without leaking or bending. The natural grain makes every bowl unique.",
     highlights: ["No leaking or bending", "Every bowl's grain is unique"],
     image: "/images/products/14.webp",
-    photo: false,
+    emptyImage: "/images/products/14-empty.webp",
+    photo: true,
   },
   {
     slug: "8-5-inch-round-cheese-plate",
@@ -460,7 +476,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "A common choice for caterers and eco-conscious events. Firm density gives a stable surface for slicing soft cheese and displaying artisanal items.",
     highlights: ["Firm enough to slice on", "Flat surface"],
     image: "/images/products/15.webp",
-    photo: false,
+    emptyImage: "/images/products/15-empty.webp",
+    photo: true,
   },
   {
     slug: "8-inch-deep-fruit-bowl",
@@ -478,7 +495,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Shows off the colour of fresh fruit while keeping juices from dripping onto surfaces.",
     highlights: ["Home compostable within 60–90 days", "Keeps juices contained"],
     image: "/images/products/16.webp",
-    photo: false,
+    emptyImage: "/images/products/16-empty.webp",
+    photo: true,
   },
   {
     slug: "4-5-inch-dessert-bowl",
@@ -496,7 +514,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Naturally insulating, so cold desserts stay cool longer. Natural leak resistance handles gelato and sorbet.",
     highlights: ["Naturally insulating", "Leak resistant"],
     image: "/images/products/17.webp",
-    photo: false,
+    emptyImage: "/images/products/17-empty.webp",
+    photo: true,
   },
   {
     slug: "10x5-5-inch-oval-taco-boat",
@@ -514,7 +533,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "The curved oval contour supports layered tacos and burritos and keeps toppings from spilling over the sides.",
     highlights: ["Contains toppings", "Curved boat profile"],
     image: "/images/products/18.webp",
-    photo: false,
+    emptyImage: "/images/products/18-empty.webp",
+    photo: true,
   },
   {
     slug: "7-inch-square-breakfast-plate",
@@ -532,7 +552,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Presents bakery goods with an eco-conscious, premium feel. The rigid surface keeps buttery pastries firm without oil bleed.",
     highlights: ["No oil bleed", "Rigid flat base"],
     image: "/images/products/19.webp",
-    photo: false,
+    emptyImage: "/images/products/19-empty.webp",
+    photo: true,
   },
   {
     slug: "11-inch-round-meze-platter",
@@ -550,7 +571,8 @@ const catalogue: Omit<TablewareProduct, "kind" | "pitch">[] = [
       "Rootsbay's flagship serving plate for communal dining. Holds multi-dish samplers, dips, pita and appetisers together.",
     highlights: ["Largest round in the range", "Made for sharing"],
     image: "/images/products/20.webp",
-    photo: false,
+    emptyImage: "/images/products/20-empty.webp",
+    photo: true,
   },
 ];
 

@@ -6,8 +6,8 @@ type MetaImage = { url: string; alt: string; width?: number; height?: number };
 /** Default social-share image: the square tray photo. */
 export const defaultImage: MetaImage = {
   url: "/images/products/02.webp",
-  width: 1024,
-  height: 1024,
+  width: 1200,
+  height: 900,
   alt: "Square areca leaf tray holding hummus and pita bread",
 };
 
