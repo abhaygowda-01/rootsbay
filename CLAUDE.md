@@ -58,9 +58,9 @@ sections, carousels, popups or animations unless asked.
 ## Open items (confirm with Rootsbay before launch)
 The README has the full handover table (what to fill, and where). In short:
 1. **GSTIN** — confirmed: `29EHIPG1769R1ZE` matches the GST certificate dated 16 Sep 2026 (the signboard spelling `...RIZE` was a misread).
-2. **Product photos** — all 20 tableware SKUs have two AI-generated stand-ins made in Gemini (October 2026): `NN.webp` in use
-   (1200 × 900) and `NN-empty.webp`, the empty piece on a cream backdrop (1024 × 1024), shown side by side on the product page.
-   They are not photos of Rootsbay's own plates and carry Gemini's small ✦ mark. Replace with real photos, same filenames.
+2. **Product photos** — all 20 tableware SKUs have two AI-generated stand-ins made in ChatGPT (October 2026, no visible watermark):
+   `NN.webp` in use (1200 × 900) and `NN-empty.webp`, the empty piece on a cream backdrop (1200 × 1200), shown side by side on
+   the product page. They are not photos of Rootsbay's own plates. Replace with real photos, same filenames.
 3. **Copy to verify**: the "we reply within one working day" promise (form + auto-reply), process steps (soak, sun-dry, inspect,
    export cartons), About text (sourcing, QC, paperwork, shipping), SKU pitch lines (`lib/products.ts`) and buyer Q&A (`lib/faq.ts`)
    are reasonable defaults, not supplied facts. Specification claims (100 °C, microwave 2 min, compostable 60–90 days, 350 ml) come
@@ -96,7 +96,7 @@ The README has the full handover table (what to fill, and where). In short:
 
 ## Natural next steps
 - Fill the ordering terms (open item 4) and add more buyer Q&A once MOQ, samples, lead time and Incoterms are known
-- Real product photography to replace the Gemini stand-ins (in-use and empty, same filenames)
+- Real product photography to replace the AI stand-ins (in-use and empty, same filenames)
 - Swap in-memory rate limit for Upstash if spam appears; add Cloudflare Turnstile if needed
 - Add products to a new line by setting its `categories` entry to `status: "available"` and adding items with that `category`
   (the category page, products bar, hub cards, sitemap and product URLs all follow). Add a `faqByCategory` entry in `lib/faq.ts` for its buyer Q&A.

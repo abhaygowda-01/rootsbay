@@ -6,8 +6,7 @@ and the README (owner's handover table). This file covers the current state, how
 ## Current state
 
 - **Live site:** <https://rootsbay-exports.vercel.app> (Vercel project `rootsbay-exports`, Rootsbay's own Vercel account).
-  It runs commit `b9e1170` (the Gemini pictures). `main`, local and on GitHub, adds only a docs commit on top (this file),
-  which needs no deploy.
+  It runs the newest commit in the table below (ChatGPT pictures, linked home photos). GitHub may be behind: push for backup.
 - **Old preview:** `rootsbay.vercel.app` lives in a different Vercel account, shows an older version and no longer updates.
   Its owner should delete it or transfer the project.
 - **Nothing uncommitted.**
@@ -16,6 +15,7 @@ and the README (owner's handover table). This file covers the current state, how
 
 | Commit | What |
 | --- | --- |
+| next after `44b916b` | All 40 tableware pictures redone in ChatGPT (no watermark); home hero photos link to their product pages, caption line removed |
 | `b9e1170` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
 | `30eb114` | Deploy script tolerates a locked temp folder on Windows |
 | `d6c2830` | `npm run deploy` (`scripts/deploy.mjs`); Vercel CLI added as a dev dependency; Vercel disconnected from GitHub |
@@ -68,11 +68,13 @@ New PC: `npm install`, `npx vercel login`, `npx vercel link --project rootsbay-e
   gangavathi-sona, rasi, ir-20, jyothi, jaya, pragathi, rajamudi, kempu-akki, rice-range. Page 1 is an unused auto-generated cover.
 - AI-generated media is not listed in Canva's Uploads or AI history, so it can't be downloaded from canva.com by hand.
 - **ElevenLabs connector** image tools fail with "requires additional permissions" until it is reconnected in Settings → Connectors.
-- **Gemini in the owner's Chrome** (Claude in Chrome extension; the owner is signed in on the free tier) made the tableware pictures
-  on 29 Oct 2026, one chat per SKU: upload the old `NN.webp` as reference, ask for the in-use photo (4:3, rustic table) and then
-  the empty piece (square, plain cream `#efe5cf` backdrop), "Download full size" each (1200 × 896 and 1024 × 1024 PNG), then
-  `sharp` to `NN.webp` (1200 × 900) and `NN-empty.webp`. Gemini sometimes errors or replies with a broken `<Image …>` placeholder;
-  asking again works. Free-tier images carry a small ✦ mark in the bottom-right corner; it was left in.
+- **ChatGPT in the owner's Chrome** (Claude in Chrome extension, a paid ChatGPT account) made the current tableware pictures,
+  one chat per SKU: upload the original pre-AI picture (`git show 30eb114:public/images/products/NN.webp`, copied into the
+  git-ignored `.data/refs/` because uploads must come from the project folder) as reference, ask for the in-use photo
+  (4:3, rustic table) and then the empty piece (square, plain cream `#efe5cf` backdrop), open each picture and use the viewer's
+  Download (1448 × 1086 and 1254 × 1254 PNG), then `sharp` to `NN.webp` (1200 × 900) and `NN-empty.webp` (1200 × 1200).
+  No visible watermark. A free ChatGPT account stops after about 5 images a day.
+- **Gemini** made an earlier set (commit `b9e1170`); free-tier Gemini images carry a visible ✦ mark, which is why they were replaced.
 
 ## Still open
 

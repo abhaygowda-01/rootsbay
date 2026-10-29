@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CategoryCards } from "@/components/CategoryCards";
 import { CtaBand } from "@/components/CtaBand";
+import { getProduct, productHref } from "@/lib/products";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
@@ -16,12 +17,16 @@ export const metadata = pageMeta({
 // Layout is built on one centre line: centred headings, equal tiles, mirrored pairs.
 
 // Alternating tableware and rice, so the 2 × 2 grid on phones reads as a checkerboard.
+// Each photo links to its product page, which also lists similar products.
 const heroPhotos = [
-  { src: "/images/products/01.webp", alt: "Round areca leaf plate with fresh berries" },
-  { src: "/images/rice/rajamudi.webp", alt: "A bowl of Rajamudi red rice" },
-  { src: "/images/products/02.webp", alt: "Square areca leaf tray holding hummus and pita bread" },
-  { src: "/images/rice/basmati.webp", alt: "A bowl of Basmati rice" },
-];
+  { slug: "4-inch-round-dessert-plate", alt: "Round areca leaf plate with fresh berries" },
+  { slug: "rajamudi-red-rice", alt: "A bowl of Rajamudi red rice" },
+  { slug: "6-inch-square-dip-tray", alt: "Square areca leaf tray holding hummus and pita bread" },
+  { slug: "basmati-rice", alt: "A bowl of Basmati rice" },
+].flatMap(({ slug, alt }) => {
+  const p = getProduct(slug);
+  return p ? [{ src: p.image, href: productHref(p), alt }] : [];
+});
 
 const steps = [
   {
@@ -81,25 +86,25 @@ export default function Home() {
             </Link>
           </div>
 
-          <figure className="rise rise-3 mt-12 md:mt-16">
-            <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
-              {heroPhotos.map((p, i) => (
-                <li key={p.src} className="relative aspect-square overflow-hidden rounded-xl">
+          <ul className="rise rise-3 mt-12 grid grid-cols-2 gap-3 sm:gap-4 md:mt-16 md:grid-cols-4">
+            {heroPhotos.map((p, i) => (
+              <li key={p.src}>
+                <Link
+                  href={p.href}
+                  className="group relative block aspect-square overflow-hidden rounded-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
                   <Image
                     src={p.src}
                     alt={p.alt}
                     fill
                     priority={i < 2}
                     sizes="(min-width: 1152px) 264px, (min-width: 768px) 23vw, 46vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
-                </li>
-              ))}
-            </ul>
-            <figcaption className="dim mx-auto mt-5 max-w-md text-sm">
-              <span className="text-brass-300">Rice and areca leaf tableware</span>
-            </figcaption>
-          </figure>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
