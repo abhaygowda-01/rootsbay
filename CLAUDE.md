@@ -92,7 +92,8 @@ The README has the full handover table (what to fill, and where). In short:
 - Deploy: commit, then `npm run deploy` (`scripts/deploy.mjs`: `git archive HEAD` to a temp folder, then `vercel deploy --prod`
   into project `rootsbay-exports`, live at https://rootsbay-exports.vercel.app). Vercel is NOT connected to GitHub on purpose:
   the Hobby plan blocks deploys whose commit author isn't the account owner, and commits stay authored "Rootsbay Website"
-  (open item 10). Pushing to GitHub is backup only. New PC: `npx vercel login`, `npx vercel link --project rootsbay-exports`.
+  (open item 10). Pushing to GitHub is backup only: push `main` to both remotes, `rootsbay` (the company repo,
+  github.com/abhaygowda-01/rootsbay) and `origin`. New PC: `npx vercel login`, `npx vercel link --project rootsbay-exports`.
 
 ## Natural next steps
 - Fill the ordering terms (open item 4) and add more buyer Q&A once MOQ, samples, lead time and Incoterms are known

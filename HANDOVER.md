@@ -6,7 +6,7 @@ and the README (owner's handover table). This file covers the current state, how
 ## Current state
 
 - **Live site:** <https://rootsbay-exports.vercel.app> (Vercel project `rootsbay-exports`, Rootsbay's own Vercel account).
-  It runs the newest commit in the table below (ChatGPT pictures, linked home photos). GitHub may be behind: push for backup.
+  It runs commit `a896a04` (ChatGPT pictures, linked home photos); later commits in the table are docs only. GitHub may be behind: push to both repos (see Deploying).
 - **Old preview:** `rootsbay.vercel.app` lives in a different Vercel account, shows an older version and no longer updates.
   Its owner should delete it or transfer the project.
 - **Nothing uncommitted.**
@@ -15,7 +15,8 @@ and the README (owner's handover table). This file covers the current state, how
 
 | Commit | What |
 | --- | --- |
-| next after `44b916b` | All 40 tableware pictures redone in ChatGPT (no watermark); home hero photos link to their product pages, caption line removed |
+| next after `a896a04` | Company GitHub repo added as remote `rootsbay`; docs say to push to both repos (no site change, no deploy needed) |
+| `a896a04` | All 40 tableware pictures redone in ChatGPT (no watermark); home hero photos link to their product pages, caption line removed |
 | `b9e1170` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
 | `30eb114` | Deploy script tolerates a locked temp folder on Windows |
 | `d6c2830` | `npm run deploy` (`scripts/deploy.mjs`); Vercel CLI added as a dev dependency; Vercel disconnected from GitHub |
@@ -33,7 +34,7 @@ and the README (owner's handover table). This file covers the current state, how
 - **Commands that need the owner's logins** (anything `vercel`) must run in the owner's Terminal panel (Claude's `run_in_terminal`),
   where the Vercel CLI login lives. The sandbox shell is fine for git, `gh`, lint, build.
 - **Tool paths** if not on `PATH` in the sandbox shell: `C:\Program Files\nodejs`, `C:\Program Files\Git\cmd\git.exe`,
-  `C:\Program Files\GitHub CLI\gh.exe`. `gh` is signed in to the repo owner's account; `git push` works.
+  `C:\Program Files\GitHub CLI\gh.exe`. `gh` is signed in to an account with write access to both repos; `git push` works.
 - **Commit identity:** repo-local `user.name "Rootsbay Website"`, `user.email noreply@rootsbay.co`. Keep it (CLAUDE.md item 10).
   End commit messages with the `Co-Authored-By` line Claude Code asks for.
 - **Commit messages with quotes:** Windows PowerShell 5.1 breaks quoted arguments to `git`. Write the message to a file and use `git commit -F <file>`.
@@ -51,7 +52,8 @@ and the README (owner's handover table). This file covers the current state, how
 
 1. Commit the change.
 2. In the owner's terminal: `npm.cmd run deploy`. About a minute; ends with `✓ Ready` and `Aliased https://rootsbay-exports.vercel.app`.
-3. Optionally `git push` for backup. Pushing does **not** deploy.
+3. Push for backup to both remotes: `git push rootsbay main` (the company repo, <https://github.com/abhaygowda-01/rootsbay>)
+   and `git push origin main` (the original backup repo). Pushing does **not** deploy.
 
 Why it works this way: Vercel's free Hobby plan blocks any deployment whose git commit author is not the account owner, including
 CLI deploys that carry git details. `scripts/deploy.mjs` exports the last commit with `git archive` into a temp folder (no git history)
