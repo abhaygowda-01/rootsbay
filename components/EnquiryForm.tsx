@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { categories, productsIn, shortName } from "@/lib/products";
 import { enquirySchema, quantityOptions } from "@/lib/enquiry-schema";
@@ -235,6 +236,13 @@ export function EnquiryForm() {
         </button>
         <p className="text-sm text-muted">We reply within one working day.</p>
       </div>
+      <p className="mt-4 text-xs leading-relaxed text-muted">
+        We use these details only to reply to your enquiry. See our{" "}
+        <Link href="/privacy" className="underline underline-offset-2 hover:text-forest">
+          privacy policy
+        </Link>
+        .
+      </p>
     </form>
   );
 }

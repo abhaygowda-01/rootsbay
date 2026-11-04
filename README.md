@@ -90,7 +90,7 @@ Everything the site still needs from Rootsbay. Items 1 to 4 matter before launch
 | # | What | Where | Today | What to do |
 | --- | --- | --- | --- | --- |
 | 1 | Public email, phone and WhatsApp | `lib/site.ts` → `contact` | Email `connect@rootsbay.co`; phone `+91 83103 05693` | Confirm the `connect@rootsbay.co` mailbox exists and is read. WhatsApp is assumed to be the same number: confirm. |
-| 2 | Where enquiries are emailed | `.env.local` (local) and Vercel settings (live): `RESEND_API_KEY`, `ENQUIRY_TO_EMAIL`, `ENQUIRY_FROM_EMAIL` | API key empty, so nothing is emailed | Sign up at <https://resend.com>, create a key, paste it. See "Make the form send email" below. |
+| 2 | Where enquiries are emailed | Live on Cloudflare: secret `RESEND_API_KEY` in the dashboard; `ENQUIRY_TO_EMAIL` / `ENQUIRY_FROM_EMAIL` in `wrangler.jsonc`. Local: `.env.local` | Recipient `connect@rootsbay.co`; key not set yet | Add the Resend key as a Cloudflare secret (`CLOUDFLARE.md` step 2). Never commit it. |
 | 3 | Final website address | `NEXT_PUBLIC_SITE_URL` in `.env.local` and Vercel | `https://www.rootsbay.co` | Confirm the domain. It feeds canonical links and the sitemap. |
 | 4 | Business facts buyers ask for | `lib/site.ts` → `ordering` (minimum order, pricing basis, lead time, packing, samples, markets) | Blank, so the panel is hidden | Fill any of them; an "Ordering at a glance" panel appears on `/contact`. Blank fields stay hidden. |
 | 5 | Social links | `lib/site.ts` → `social` | Blank, so hidden from the footer | Add the LinkedIn and Instagram page URLs. |
@@ -114,7 +114,13 @@ Everything in `lib/site.ts` is shown across the whole site (header, footer, cont
 
 Prefer a spreadsheet? Set `ENQUIRY_WEBHOOK_URL` to a Google Apps Script web app that appends rows to a Sheet. Email and webhook can run together.
 
-## Publish it (Vercel)
+## Publish it on Cloudflare
+
+The site is set up to run on **Cloudflare Workers**. Follow [`CLOUDFLARE.md`](CLOUDFLARE.md): connect the GitHub repo,
+add one secret (`RESEND_API_KEY`), connect `rootsbay.co`, and switch on HTTPS settings. To try it locally in
+Cloudflare's runtime: `npm run cf:preview`.
+
+## Publish it (Vercel, until the move to Cloudflare)
 
 The site is live at <https://rootsbay-exports.vercel.app>, in the Vercel project `rootsbay-exports` (Rootsbay's own Vercel account). The older preview at `rootsbay.vercel.app` sits in the builder's account and no longer updates.
 

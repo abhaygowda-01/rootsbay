@@ -1,0 +1,10 @@
+# Headers for files Cloudflare serves straight from static assets (pictures, fonts, PDFs, build files).
+# Pages get their headers from next.config.ts.
+
+/*
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,12 +1,16 @@
 # Handover: where the Rootsbay site stands
 
-Last updated 29 October 2026. For the next working session: read this file, then `CLAUDE.md` (project rules and map)
+Last updated 4 November 2026. For the next working session: read this file, then `CLAUDE.md` (project rules and map)
 and the README (owner's handover table). This file covers the current state, how this PC is set up, and what is still open.
 
 ## Current state
 
 - **Live site:** <https://rootsbay-exports.vercel.app> (Vercel project `rootsbay-exports`, Rootsbay's own Vercel account).
-  It runs commit `a896a04` (ChatGPT pictures, linked home photos); later commits in the table are docs only. GitHub may be behind: push to both repos (see Deploying).
+  It runs commit `a896a04` (ChatGPT pictures, linked home photos). The Cloudflare commit (top of the table) is not on Vercel.
+  GitHub may be behind: push to both repos (see Deploying).
+- **Moving to Cloudflare:** the repo is ready for Cloudflare Workers (built and tested in the Workers runtime on 4 Nov 2026).
+  Whoever hosts it follows `CLOUDFLARE.md`. The email key is a Cloudflare secret, never a file. Retire Vercel after the switch
+  (remove the `vercel` dev dependency, `scripts/deploy.mjs` and the `deploy` script).
 - **Old preview:** `rootsbay.vercel.app` lives in a different Vercel account, shows an older version and no longer updates.
   Its owner should delete it or transfer the project.
 - **Nothing uncommitted.**
@@ -15,7 +19,8 @@ and the README (owner's handover table). This file covers the current state, how
 
 | Commit | What |
 | --- | --- |
-| next after `a896a04` | Company GitHub repo added as remote `rootsbay`; docs say to push to both repos (no site change, no deploy needed) |
+| next after `8c1f34f` | Cloudflare Workers support (OpenNext, `wrangler.jsonc`, `CLOUDFLARE.md`), Next 16.4.5, security headers, `rootsbay.co` → www redirect, privacy policy page, form email needs only the `RESEND_API_KEY` secret, IP no longer in the enquiry email |
+| `8c1f34f` | Company GitHub repo added as remote `rootsbay`; docs say to push to both repos (no site change, no deploy needed) |
 | `a896a04` | All 40 tableware pictures redone in ChatGPT (no watermark); home hero photos link to their product pages, caption line removed |
 | `b9e1170` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
 | `30eb114` | Deploy script tolerates a locked temp folder on Windows |

@@ -78,9 +78,12 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-white/50 sm:px-6">
-          © Rootsbay. Agro exports from Bengaluru, India.
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-x-6 gap-y-2 px-4 py-5 text-xs text-white/50 sm:px-6">
+          <p>© Rootsbay. Agro exports from Bengaluru, India.</p>
+          <Link href="/privacy" className="hover:text-white">
+            Privacy policy
+          </Link>
+        </div>
       </div>
     </footer>
   );

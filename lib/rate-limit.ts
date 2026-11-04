@@ -1,9 +1,9 @@
 /**
  * Minimal fixed-window rate limiter, kept in memory.
  *
- * Good enough to stop a single client hammering the form. On serverless hosts
- * (Vercel) each instance has its own memory, so for stronger protection swap
- * this for Upstash Redis (@upstash/ratelimit) or Vercel's firewall rules.
+ * Good enough to stop a single client hammering the form. On Cloudflare Workers
+ * (and other serverless hosts) each instance has its own memory, so for stronger
+ * protection add a Cloudflare rate limiting rule for /api/enquiry (see CLOUDFLARE.md).
  */
 const hits = new Map<string, { count: number; resetAt: number }>();
 

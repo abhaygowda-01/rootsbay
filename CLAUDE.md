@@ -20,6 +20,8 @@ sections, carousels, popups or animations unless asked.
   `middleware` is now `proxy`, `next/image` `qualities` defaults to [75])
 - zod v4 for validation, fonts self-hosted via @fontsource (no Google Fonts call at build)
 - No database. Enquiries go out by email (Resend) and/or a webhook. See `.env.example`.
+- Hosting target: **Cloudflare Workers** via `@opennextjs/cloudflare` (`wrangler.jsonc`, `open-next.config.ts`, `public/_headers`).
+  Step-by-step for whoever hosts it: `CLOUDFLARE.md`. Don't add `export const runtime = "edge"` or Node middleware (unsupported there).
 - Owner works on Windows + VS Code (PowerShell). `.vscode/`, `.editorconfig` and `.gitattributes` (LF line endings) are set up for that.
 
 ## Where things live
@@ -31,7 +33,8 @@ sections, carousels, popups or animations unless asked.
 | Form schema (shared client + server) | `lib/enquiry-schema.ts` |
 | Enquiry API | `app/api/enquiry/route.ts` → `lib/notify.ts` (Resend / webhook / dev file) |
 | Rate limiting (in-memory) | `lib/rate-limit.ts` |
-| Pages | `app/page.tsx` (home), `app/about/`, `app/how-its-made/`, `app/certificates/`, `app/contact/` |
+| Pages | `app/page.tsx` (home), `app/about/`, `app/how-its-made/`, `app/certificates/`, `app/contact/`, `app/privacy/` |
+| Security headers, bare-domain → www redirect | `next.config.ts` (pages), `public/_headers` (static files) |
 | Products hub + "Products" title bar | `app/products/page.tsx`, `app/products/layout.tsx`, `components/ProductsNav.tsx` |
 | Product lines (agriculture, handicrafts, biodegradable tableware) | `categories` in `lib/products.ts`; page `app/products/[category]/page.tsx` |
 | Product detail pages (static, 20) | `app/products/[category]/[slug]/page.tsx` → `/products/biodegradable-tableware/<slug>` |
@@ -80,16 +83,23 @@ The README has the full handover table (what to fill, and where). In short:
    Jyothi as red rice, and the rice Q&A need Rootsbay's confirmation. Rice pictures are AI-generated stand-ins
    (Canva, 1200 × 900; originals in the Canva design "Rice Photo Board"), to be replaced by photos of Rootsbay's own rice.
 8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
-9. Email delivery: set `RESEND_API_KEY` (and verify rootsbay.co in Resend for a branded sender), or set `ENQUIRY_WEBHOOK_URL`.
+9. Email delivery: the only secret is `RESEND_API_KEY` (Cloudflare dashboard, never a committed file; the repo is public).
+   Recipient and sender are in `wrangler.jsonc` → `vars`; recipient defaults to `site.contact.email`. Verify rootsbay.co in
+   Resend for a branded sender. The IP address is used only for rate limiting and is not put in the enquiry email.
 10. **No personal details of whoever built the site** belong in the repo, on the site, or in git author fields. Only Rootsbay and
     Abhay S Gowda details taken from the certificates. Keep it that way when editing.
+11. **Privacy policy** (`app/privacy/page.tsx`, linked in the footer and under the form) is a plain-language default written for
+    India's DPDP Act and the GDPR: two-year retention, 30-day reply, Abhay S Gowda as contact. Rootsbay should confirm it;
+    update it if analytics, cookies or new processors are added.
 
 ## Commands (Windows / PowerShell / VS Code)
 - `npm run dev` — local dev at http://localhost:3000 (enquiries saved to `.data/enquiries.jsonl` when no channel is configured)
 - `npm run verify` — lint + type check + production build; then `npm start` to serve the build
 - `npm run lint`, `npm run typecheck`, `npm run clean` (deletes `.next`)
 - New PC: `npm install`, then `Copy-Item .env.example .env.local`. VS Code tasks and debug config are in `.vscode/`.
-- Deploy: commit, then `npm run deploy` (`scripts/deploy.mjs`: `git archive HEAD` to a temp folder, then `vercel deploy --prod`
+- Cloudflare: `npm run cf:preview` (build + run in the Workers runtime at http://127.0.0.1:8787), `npm run cf:deploy`.
+  Normally Cloudflare Workers Builds deploys from the GitHub company repo on every push to `main` (see `CLOUDFLARE.md`).
+- Vercel (current host until the Cloudflare switch): commit, then `npm run deploy` (`scripts/deploy.mjs`: `git archive HEAD` to a temp folder, then `vercel deploy --prod`
   into project `rootsbay-exports`, live at https://rootsbay-exports.vercel.app). Vercel is NOT connected to GitHub on purpose:
   the Hobby plan blocks deploys whose commit author isn't the account owner, and commits stay authored "Rootsbay Website"
   (open item 10). Pushing to GitHub is backup only: push `main` to both remotes, `rootsbay` (the company repo,

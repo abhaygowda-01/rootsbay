@@ -13,7 +13,9 @@ import { site } from "@/lib/site";
  * 502/503 { ok: false, error }    — delivery failed / not configured
  */
 export async function POST(request: Request) {
+  // Cloudflare sends the visitor's address as cf-connecting-ip; the others cover other hosts.
   const ip =
+    request.headers.get("cf-connecting-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown";
@@ -60,7 +62,7 @@ export async function POST(request: Request) {
   const results = await deliverEnquiry(data, meta);
 
   if (results.length === 0) {
-    console.error("[enquiry] No delivery channel configured. Set RESEND_API_KEY/ENQUIRY_TO_EMAIL or ENQUIRY_WEBHOOK_URL.");
+    console.error("[enquiry] No delivery channel configured. Set the RESEND_API_KEY secret (or ENQUIRY_WEBHOOK_URL).");
     return NextResponse.json(
       { ok: false, error: `The form isn't connected yet. Please email ${site.contact.email}.` },
       { status: 503 },

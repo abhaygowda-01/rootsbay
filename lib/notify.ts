@@ -6,7 +6,8 @@ import type { Enquiry } from "./enquiry-schema";
 /**
  * Where enquiries go. Each channel is optional and switched on by env vars:
  *
- *   RESEND_API_KEY + ENQUIRY_TO_EMAIL  → email to the Rootsbay team (recommended)
+ *   RESEND_API_KEY                     → email to the Rootsbay team (recommended; the only secret)
+ *   ENQUIRY_TO_EMAIL                   → inbox(es) for enquiries, default: the site contact email
  *   ENQUIRY_FROM_EMAIL                 → verified sender, e.g. "Rootsbay <enquiries@rootsbay.co>"
  *   ENQUIRY_AUTOREPLY=true             → also send the buyer a short acknowledgement
  *   ENQUIRY_WEBHOOK_URL                → POST the JSON to a webhook (Google Apps Script
@@ -43,9 +44,8 @@ function teamEmail(e: Enquiry, meta: { id: string; ip: string; receivedAt: strin
     ["Products", items.length ? items.join("\n") : "Not specified"],
     ["Message", e.message || "—"],
   ];
-  const text =
-    rows.map(([k, v]) => `${k}: ${v}`).join("\n") +
-    `\n\nRef ${meta.id} · received ${meta.receivedAt} · IP ${meta.ip}`;
+  // The IP is used only for rate limiting; it is not passed on in the email (see the privacy policy).
+  const text = rows.map(([k, v]) => `${k}: ${v}`).join("\n") + `\n\nRef ${meta.id} · received ${meta.receivedAt}`;
   const html = `
     <div style="font-family:Arial,sans-serif;font-size:14px;color:#1b2420">
       <h2 style="color:#1e5a3c;margin:0 0 12px">New quote request</h2>
@@ -92,14 +92,15 @@ export async function deliverEnquiry(
   meta: { id: string; ip: string; receivedAt: string },
 ): Promise<Result[]> {
   const results: Result[] = [];
-  const from = process.env.ENQUIRY_FROM_EMAIL ?? "Rootsbay Website <onboarding@resend.dev>";
+  const from = process.env.ENQUIRY_FROM_EMAIL || "Rootsbay Website <onboarding@resend.dev>";
+  const to = (process.env.ENQUIRY_TO_EMAIL || site.contact.email).split(",").map((s) => s.trim());
 
-  if (process.env.RESEND_API_KEY && process.env.ENQUIRY_TO_EMAIL) {
+  if (process.env.RESEND_API_KEY) {
     try {
       const m = teamEmail(e, meta);
       await sendResend({
         from,
-        to: process.env.ENQUIRY_TO_EMAIL.split(",").map((s) => s.trim()),
+        to,
         reply_to: e.email,
         subject: m.subject,
         text: m.text,

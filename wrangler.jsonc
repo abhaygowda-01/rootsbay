@@ -1,0 +1,26 @@
+// Cloudflare Workers config for the Rootsbay site (built with @opennextjs/cloudflare).
+// Hosting steps: CLOUDFLARE.md. The only secret is RESEND_API_KEY: add it in the Cloudflare
+// dashboard (Worker → Settings → Variables and Secrets), never in this file.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "rootsbay",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "rootsbay" }],
+  // Next.js image resizing through Cloudflare Images.
+  "images": { "binding": "IMAGES" },
+  // Not secret: who receives quote requests and who they appear to come from. Change here, then redeploy.
+  "vars": {
+    "ENQUIRY_TO_EMAIL": "connect@rootsbay.co",
+    "ENQUIRY_FROM_EMAIL": "Rootsbay Website <onboarding@resend.dev>",
+    "ENQUIRY_AUTOREPLY": "false"
+  },
+  // Keeps the variables and secrets set in the dashboard when deploying from the command line.
+  "keep_vars": true,
+  "observability": { "enabled": true }
+}

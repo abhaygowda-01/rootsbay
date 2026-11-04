@@ -19,5 +19,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     page("/how-its-made", 0.6),
     page("/certificates", 0.6),
     page("/contact", 0.6),
+    page("/privacy", 0.2),
   ];
 }
