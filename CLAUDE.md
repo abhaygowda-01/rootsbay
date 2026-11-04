@@ -84,8 +84,9 @@ The README has the full handover table (what to fill, and where). In short:
    (Canva, 1200 × 900; originals in the Canva design "Rice Photo Board"), to be replaced by photos of Rootsbay's own rice.
 8. Logo is cut from a phone photo of the signboard — swap in the original vector/PNG from the designer.
 9. Email delivery: the only secret is `RESEND_API_KEY` (Cloudflare dashboard, never a committed file; the repo is public).
-   Recipient and sender are in `wrangler.jsonc` → `vars`; recipient defaults to `site.contact.email`. Verify rootsbay.co in
-   Resend for a branded sender. The IP address is used only for rate limiting and is not put in the enquiry email.
+   Recipient (`connect@rootsbay.co`) and sender (`website@rootsbay.co`) are in `wrangler.jsonc` → `vars`; recipient defaults
+   to `site.contact.email`. Until rootsbay.co is verified in Resend, `lib/notify.ts` retries from Resend's test sender.
+   Owner-facing steps (inbox via Cloudflare Email Routing, Resend key, Gmail "Send mail as" over Resend SMTP): `EMAIL.md`. The IP address is used only for rate limiting and is not put in the enquiry email.
 10. **No personal details of whoever built the site** belong in the repo, on the site, or in git author fields. Only Rootsbay and
     Abhay S Gowda details taken from the certificates. Keep it that way when editing.
 11. **Privacy policy** (`app/privacy/page.tsx`, linked in the footer and under the form) is a plain-language default written for

@@ -67,12 +67,12 @@ Save. The next request uses it; if the form still says "isn't connected", trigge
 Everything else for email is already set in `wrangler.jsonc` → `vars`:
 
 - `ENQUIRY_TO_EMAIL` = `connect@rootsbay.co` (who receives quote requests; comma-separate for several)
-- `ENQUIRY_FROM_EMAIL` = `Rootsbay Website <onboarding@resend.dev>` (Resend's test sender)
+- `ENQUIRY_FROM_EMAIL` = `Rootsbay Website <website@rootsbay.co>` (needs rootsbay.co verified in Resend, step 5)
 - `ENQUIRY_AUTOREPLY` = `false`
 
-**Important about Resend's test sender:** `onboarding@resend.dev` only delivers to the email address the
-Resend account was created with. Either create the Resend account with `connect@rootsbay.co`, or (better)
-do step 5 so mail comes from `rootsbay.co` and can go to anyone.
+Until rootsbay.co is verified in Resend, the site automatically sends from Resend's test address instead, which only
+reaches the email the Resend account was created with. **All email steps, including receiving mail at
+connect@rootsbay.co and replying from it in Gmail, are in [`EMAIL.md`](EMAIL.md).**
 
 ## 3. Connect the domain (rootsbay.co)
 
@@ -96,13 +96,10 @@ do step 5 so mail comes from `rootsbay.co` and can go to anyone.
 The site itself already sends HSTS (HTTPS only, 2 years), blocks being shown inside other sites' frames,
 and has a content security policy. Do not turn on HSTS "preload" unless you are sure every subdomain will always have HTTPS.
 
-## 5. Send email from rootsbay.co (recommended, 10 minutes)
+## 5. Email (receive at connect@rootsbay.co, the form, replying from Gmail)
 
-1. Resend → **Domains** → **Add domain** → `rootsbay.co`. Resend can add the DNS records to Cloudflare automatically
-   ("Sign in to Cloudflare"), or add the records it shows by hand in Cloudflare DNS (keep them **DNS only**, grey cloud).
-2. When Resend shows the domain as verified, edit `wrangler.jsonc`:
-   `"ENQUIRY_FROM_EMAIL": "Rootsbay Website <enquiries@rootsbay.co>"`, and optionally `"ENQUIRY_AUTOREPLY": "true"`
-   to send buyers a short "we received your enquiry" email. Commit and push; Cloudflare redeploys.
+Follow [`EMAIL.md`](EMAIL.md). No code changes are needed: the site already sends quote requests to
+connect@rootsbay.co from `website@rootsbay.co` as soon as rootsbay.co is verified in Resend.
 
 ## 6. Optional extras
 
@@ -118,7 +115,7 @@ and has a content security policy. Do not turn on HSTS "preload" unless you are 
 | "Output directory not found", "build output is empty", `.vercel/output` missing | The project was created as **Pages**. Create a **Worker** instead (step 1). |
 | Build fails at `npm install` / `npm ci` | Make sure the build uses Node 22 (`.nvmrc`); set a `NODE_VERSION=22` build variable if needed. |
 | Form says "The form isn't connected yet" | The `RESEND_API_KEY` secret is missing (step 2). |
-| Form says "We couldn't send your enquiry" | Resend rejected the email: check the key, and the test-sender rule in step 2 (or do step 5). Worker → **Logs** shows the reason. |
+| Form says "We couldn't send your enquiry" | Resend rejected the email: check the key and that rootsbay.co is verified in Resend (`EMAIL.md`). Worker → **Logs** shows the reason. |
 | Pictures don't show | Cloudflare Images is not available on the account. Add build variable `NEXT_IMAGE_UNOPTIMIZED=true` and redeploy (pictures are then served full size). |
 | "Worker exceeded size limit" | Free plan allows 3 MB compressed; the site is about 1.3 MB. If it grows past 3 MB, use the Workers Paid plan. |
 | Deploy error about `WORKER_SELF_REFERENCE` | The Worker name in the dashboard must be `rootsbay`, same as `wrangler.jsonc`. |

@@ -15,9 +15,11 @@
   // Next.js image resizing through Cloudflare Images.
   "images": { "binding": "IMAGES" },
   // Not secret: who receives quote requests and who they appear to come from. Change here, then redeploy.
+  // The sender needs rootsbay.co verified in Resend (EMAIL.md, part 2); until then the site falls back to
+  // Resend's test sender automatically.
   "vars": {
     "ENQUIRY_TO_EMAIL": "connect@rootsbay.co",
-    "ENQUIRY_FROM_EMAIL": "Rootsbay Website <onboarding@resend.dev>",
+    "ENQUIRY_FROM_EMAIL": "Rootsbay Website <website@rootsbay.co>",
     "ENQUIRY_AUTOREPLY": "false"
   },
   // Keeps the variables and secrets set in the dashboard when deploying from the command line.

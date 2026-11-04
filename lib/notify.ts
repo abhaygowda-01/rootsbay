@@ -87,18 +87,32 @@ async function sendResend(payload: Record<string, unknown>) {
   if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
 }
 
+// Resend's shared test sender. It works before rootsbay.co is verified, but only delivers to the Resend account's own email.
+const testSender = "Rootsbay Website <onboarding@resend.dev>";
+
+/** Sends from the configured sender; if Resend refuses it (domain not verified yet), retries from the test sender. */
+async function sendWithFallback(payload: Record<string, unknown> & { from: string }) {
+  try {
+    await sendResend(payload);
+  } catch (err) {
+    if (payload.from === testSender) throw err;
+    console.error("[enquiry] sender refused, retrying from Resend's test sender:", String(err));
+    await sendResend({ ...payload, from: testSender });
+  }
+}
+
 export async function deliverEnquiry(
   e: Enquiry,
   meta: { id: string; ip: string; receivedAt: string },
 ): Promise<Result[]> {
   const results: Result[] = [];
-  const from = process.env.ENQUIRY_FROM_EMAIL || "Rootsbay Website <onboarding@resend.dev>";
+  const from = process.env.ENQUIRY_FROM_EMAIL || testSender;
   const to = (process.env.ENQUIRY_TO_EMAIL || site.contact.email).split(",").map((s) => s.trim());
 
   if (process.env.RESEND_API_KEY) {
     try {
       const m = teamEmail(e, meta);
-      await sendResend({
+      await sendWithFallback({
         from,
         to,
         reply_to: e.email,

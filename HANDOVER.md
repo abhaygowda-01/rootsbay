@@ -19,7 +19,8 @@ and the README (owner's handover table). This file covers the current state, how
 
 | Commit | What |
 | --- | --- |
-| next after `8c1f34f` | Cloudflare Workers support (OpenNext, `wrangler.jsonc`, `CLOUDFLARE.md`), Next 16.4.5, security headers, `rootsbay.co` → www redirect, privacy policy page, form email needs only the `RESEND_API_KEY` secret, IP no longer in the enquiry email |
+| next after `afbb414` | `EMAIL.md` (receive at connect@ via Email Routing, form key, Gmail SMTP); sender `website@rootsbay.co` with automatic fallback to Resend's test sender; `app/favicon.ico` |
+| `afbb414` | Cloudflare Workers support (OpenNext, `wrangler.jsonc`, `CLOUDFLARE.md`), Next 16.4.5, security headers, `rootsbay.co` → www redirect, privacy policy page, form email needs only the `RESEND_API_KEY` secret, IP no longer in the enquiry email |
 | `8c1f34f` | Company GitHub repo added as remote `rootsbay`; docs say to push to both repos (no site change, no deploy needed) |
 | `a896a04` | All 40 tableware pictures redone in ChatGPT (no watermark); home hero photos link to their product pages, caption line removed |
 | `b9e1170` | Gemini pictures for all 20 tableware SKUs: new in-use photos and an empty-piece photo shown beside each on its product page; this file |
